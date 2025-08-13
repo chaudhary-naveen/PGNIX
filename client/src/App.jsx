@@ -12,8 +12,8 @@ import Signin from './Components/Signin/Signin';
 import Login from './Components/Signin/Login';
 import Navbar from './Components/Navbar/Navbar';
 
+import ProductPage from './productPage/ProductPage'
 function App() {
-
   return (
  
  <>
@@ -23,6 +23,7 @@ function App() {
         <Route path='/welcome' element={<Signin></Signin>} ></Route>
         <Route path='/login' element={<Login></Login>} ></Route>
       </Routes>
+     <ProductPage/>
     </>
   )
 }
