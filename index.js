@@ -16,14 +16,9 @@ app.use(cookieParser());
 // DataBase Connection
 connectdb();
 
-// app.use(express.static(path.join(__dirname, 'client','build')));
+app.use(express.static(path.join(__dirname, 'client','dist')));
 
 app.use('/api',routes);
-
-app.get('*', (req, res) => {
-  // res.sendFile(path.join(__dirname,'client','build','index.html'));
-  res.send("Hi, Myself is Naveen !!");
-});
 
 const server = app.listen(port, () => {
   console.log(`run on the ${port}`);
