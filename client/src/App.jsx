@@ -1,9 +1,20 @@
 import './App.css'
-import HomePage from './HomePage/HomePage'
+import {
+  Routes,
+  Route,
+  useLocation,
+  useNavigate,
+  Link,
+} from "react-router-dom";
+
+import HomePage from './HomePage/HomePage';
+
 function App() {
   return (
     <>
-      <HomePage />
+      <Routes>
+        <Route path='/' element={<HomePage/>} ></Route>
+      </Routes>
     </>
   )
 }
