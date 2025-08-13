@@ -3,7 +3,7 @@ import React from "react";
 // Header Component
 function Header() {
   return (
-    <header className="flex items-center justify-between px-5 py-3 bg-gray-100">
+    <header className="flex items-center justify-between px-5 py-3 mb-2 bg-gray-100">
       {/* Logo */}
       <div className="flex-1 text-left">
         <h1 className="text-xl font-bold">PGNIX</h1>
