@@ -89,10 +89,9 @@
     flex-wrap: wrap;
     flex-direction: row;
 }
-.signin-body>*{
-    width: 50%;
+.signin-body > .login-box{
+    width: 100%;
 }
-
 @media (width<850px){
     .login-side-display{
         display: none;

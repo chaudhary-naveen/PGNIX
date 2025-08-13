@@ -9,8 +9,6 @@ import { Link, useNavigate } from "react-router-dom";
 import "./signin.css";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { Chip } from "@mui/material";
-import { Badge } from "@mui/base";
-import {DatePicker} from 'keep-react'
 import path from "../../path";
 import axios from "axios";
 import { addUser } from "../../utils/slices/userSlice";
@@ -18,7 +16,6 @@ import {useDispatch} from 'react-redux';
 import LinearProgress from '@mui/material/LinearProgress';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { setToken } from "../../utils/slices/utilitySlice";
 
 
 const Signin = () => {
@@ -143,7 +140,7 @@ const Signin = () => {
         console.log(response);
 
         if(response.data.success){
-            dispatch(setToken(response.data.token));
+            
             dispatch(addUser(response.data.msg));
             navigate('../');
             setError("");
@@ -164,14 +161,13 @@ const Signin = () => {
   const submitHandler = async () => {
     // if (validate() && isEmpty() && isUserUnique) {
       if(1){
-
       setload(true);
       const res = await axios.post(`${path}register`, {
         email
       });
       console.log(res);
       if(res.data.success){
-        setActiveStep(3);
+        setActiveStep(2);
       }
       setload(false);
     }
@@ -206,24 +202,8 @@ const Signin = () => {
     <div className="signin">
     {load && <LinearProgress></LinearProgress>}
       <ToastContainer></ToastContainer>
-      <div className="stepper largeScreen">
-        <Stepper activeStep={activeStep}>
-          <Step>
-            <StepLabel>Register</StepLabel>
-          </Step>
-          <Step>
-            <StepLabel>Details</StepLabel>
-          </Step>
-          <Step>
-            <StepLabel>Submit</StepLabel>
-          </Step>
-          <Step>
-            <StepLabel>Verify</StepLabel>
-          </Step>
-        </Stepper>
-      </div>
       
-      <div className="stepper smallScreen">
+      <div className="stepper">
       <Stepper activeStep={activeStep}>
         <Step>
           <StepLabel></StepLabel>
@@ -259,17 +239,16 @@ const Signin = () => {
             {/* First Paenel */}
             <div className="login-box">
               <div className="login-box-title">Welcome</div>
-              <div className={isUserUnique?"login-box-field":"login-box-field invalid-user"}>
-                <p>Username</p>
-                <input
-                  value={username}
-                  onChange={(e) => setusername(e.target.value?.toLowerCase())}
-                  onBlur={()=>{ 
-                    validate()
-                    userNameChangeHandler()
-                    }}
-                  placeholder="Choose a unique username"
-                ></input>
+
+             <div className="login-box-field">
+                <p>Choose your role</p>
+                <select
+                  value={gender}
+                  onChange={(e) => setgender(e.target.value)}
+                >
+                  <option value={"male"}>To search Properties</option>
+                  <option value={"female"}>To manage Properties</option>
+                </select>
               </div>
 
               <div className="login-box-field">
@@ -303,9 +282,6 @@ const Signin = () => {
               <div className="login-box-error">{error}</div>
               <div className="login-box-link">Have a Account ? Login <Link to='/login'>here</Link></div>
             </div>
-
-            
-            <div className="login-side-display"></div>
           </>
         ) : // second panel
         activeStep == 1 ? (
@@ -345,7 +321,7 @@ const Signin = () => {
                 >
                   <option value={"male"}>Male</option>
                   <option value={"female"}>Female</option>
-                  <option value={"other"}>Chillam</option>
+                  <option value={"other"}>Other</option>
                 </select>
               </div>
 
@@ -354,60 +330,7 @@ const Signin = () => {
             <div className="login-side-display"></div>
           </>
         ) : 
-         activeStep == 2 ? (
-          // third Panel
-          <>
-            <div className="login-box">
-              <div className="login-box-title">Final Step</div>
-
-              <div className="login-box-field">
-                <p>Skills</p>
-                <input
-                  onKeyDown={skillselecthandle}
-                  placeholder="Type skills and hit Enter"
-                  value={aSkill}
-                  onChange={(e)=>setASkill(e.target.value)}
-                ></input>
-              </div>
-
-              <div className="skills-array">
-                {skills.map((skill) => (
-                  <Chip label={skill}  onDelete={()=>deleteSkill(skill)}></Chip>
-                ))}
-              </div>
-
-              <div className="login-box-field">
-                <p>Designation</p>
-                <input
-                  value={designation}
-                  onChange={(e) => setdesignation(e.target.value)}
-                  placeholder="i.e, SDE,Student,FreeLancer"
-                ></input>
-              </div>
-
-              <div className="login-box-field">
-                <p>Organisation</p>
-                <input
-                  type="text"
-                  value={organisation}
-                  onChange={(e) => setorganisation(e.target.value)}
-                  placeholder="Student can type College Name"
-                ></input>
-              </div>
-              <div className="login-box-field">
-                <p>City</p>
-                <input
-                  type="text"
-                  value={city}
-                  onChange={(e) => setcity(e.target.value)}
-                ></input>
-              </div>
-
-              <div className="login-box-error">{error}</div>
-            </div>
-            <div className="login-side-display"></div>
-          </>)
-          : (<div className="otp">
+         activeStep == 2 ? <div className="otp">
                   <div>OTP Verification</div>
                   <p>Enter otp sent to {email}</p>
                   <div className="otp-inbox">
@@ -415,7 +338,7 @@ const Signin = () => {
                   </div>
                   <div className="login-box-error" style={{fontSize:"12px"}}>{error}</div>
                   <Button variant="contained" fullWidth onClick={handleSubmitSignin} disabled={load}>Verify</Button>
-          </div>)
+          </div> : ""
         }
 
 
@@ -426,13 +349,13 @@ const Signin = () => {
         className="signin-button"
         style={{ justifyContent: "center", paddingBottom: "20px" }}
       >
-        {activeStep == 2 ? (
+        {activeStep == 1 ? (
           <Button variant="contained" onClick={submitHandler} disabled={load}>
             Submit
           </Button>
         ) : ""}
         {
-          activeStep <=1 ? <Button
+          activeStep < 1 ? <Button
             variant="outlined"
             onClick={() => setActiveStep(activeStep + 1)}
           >
@@ -440,6 +363,7 @@ const Signin = () => {
           </Button> :""
         }
       </div>
+
     </div>
   );
 };
