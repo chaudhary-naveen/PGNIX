@@ -21,7 +21,7 @@ app.use(express.static(path.join(__dirname, 'client','dist')));
 app.use('/api',routes);
 
 const server = app.listen(port, () => {
-  console.log(`run on the ${port}`);
+  console.log(`Run on the ${port}`);
 });
 
 module.exports = app;
