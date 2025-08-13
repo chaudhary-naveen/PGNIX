@@ -1,46 +1,95 @@
 import './Navbar.css';
 import logo from './../../assets/logo.jpeg'
 const Navbar = ()=>{
-    return <nav className="bg-white fixed w-full z-20 top-0 start-0 border-b border-gray-200">
-  <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+    return <nav
+  style={{
+    backgroundColor: "white",
+    width: "100%",
+    zIndex: 20,
+    top: 0,
+    left: 0,
+    borderBottom: "1px solid #e5e7eb" /* border-gray-200 */,
+  }}
+>
+  <div
+    style={{
+      maxWidth: "1280px", // max-w-screen-xl
+      display: "flex",
+      flexWrap: "wrap",
+      alignItems: "center",
+      justifyContent: "space-between",
+      margin: "0 auto",
+      padding: "1rem",
+    }}
+  >
     <a
       href="/"
-      className="flex items-center space-x-3 rtl:space-x-reverse"
+      style={{
+        display: "flex",
+        textDecoration:"none",
+        alignItems: "center",
+        gap: "0.75rem", // space-x-3
+      }}
     >
-      <img
-        src={logo}
-        className="h-8"
-        alt="logo"
-      />
-      <span className="self-center text-2xl font-semibold whitespace-nowrap text-black">
+      <img src={logo} style={{ height: "2rem" }} alt="logo" />
+      <span
+        style={{
+          alignSelf: "center",
+          fontSize: "1.5rem",
+          fontWeight: 600,
+          whiteSpace: "nowrap",
+          color: "black",
+        }}
+      >
         PG
-        <span className='text-blue-400'>
-        NIX
-        </span>
+        <span style={{ color: "#60a5fa" /* blue-400 */ }}>NIX</span>
       </span>
     </a>
-    <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-        
-       <a href='/login'>
-      <button
-        type="button"
-        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center"
+
+    <div style={{ display: "flex", order: 2, gap: "0.75rem" }}>
+      <a href="/login">
+        <button
+          type="button"
+          style={{
+            color: "white",
+            backgroundColor: "#1d4ed8" /* blue-700 */,
+            fontWeight: 500,
+            borderRadius: "0.5rem",
+            fontSize: "0.875rem",
+            padding: "0.5rem 1rem",
+            textAlign: "center",
+            cursor: "pointer",
+            border: "none",
+          }}
+          onMouseOver={(e) => (e.target.style.backgroundColor = "#1e40af")}
+          onMouseOut={(e) => (e.target.style.backgroundColor = "#1d4ed8")}
         >
-        Signin
-      </button>
+          Signin
+        </button>
       </a>
 
-
       <button
-        data-collapse-toggle="navbar-sticky"
         type="button"
-        className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
-        aria-controls="navbar-sticky"
-        aria-expanded="false"
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "0.5rem",
+          width: "2.5rem",
+          height: "2.5rem",
+          fontSize: "0.875rem",
+          color: "#6b7280" /* text-gray-500 */,
+          borderRadius: "0.5rem",
+          backgroundColor: "transparent",
+          border: "none",
+          cursor: "pointer",
+        }}
       >
-        <span className="sr-only">Open main menu</span>
+        <span style={{ position: "absolute", left: "-9999px" }}>
+          Open main menu
+        </span>
         <svg
-          className="w-5 h-5"
+          style={{ width: "1.25rem", height: "1.25rem" }}
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -56,16 +105,40 @@ const Navbar = ()=>{
         </svg>
       </button>
     </div>
+
     <div
-      className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
       id="navbar-sticky"
+      style={{
+        display: "none",
+        alignItems: "center",
+        justifyContent: "space-between",
+        width: "100%",
+        order: 1,
+      }}
     >
-      <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white">
+      <ul
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          padding: "1rem",
+          marginTop: "1rem",
+          fontWeight: 500,
+          border: "1px solid #f3f4f6" /* border-gray-100 */,
+          borderRadius: "0.5rem",
+          backgroundColor: "#f9fafb" /* bg-gray-50 */,
+        }}
+      >
         <li>
           <a
             href="#"
-            className="block py-2 px-3 text-white bg-blue-700 rounded-sm md:bg-transparent md:text-blue-700 md:p-0"
-            aria-current="page"
+            style={{
+              display: "block",
+              padding: "0.5rem 0.75rem",
+              color: "white",
+              backgroundColor: "#1d4ed8",
+              borderRadius: "0.125rem",
+              textDecoration: "none",
+            }}
           >
             Home
           </a>
@@ -73,7 +146,13 @@ const Navbar = ()=>{
         <li>
           <a
             href="#"
-            className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0"
+            style={{
+              display: "block",
+              padding: "0.5rem 0.75rem",
+              color: "#111827" /* text-gray-900 */,
+              borderRadius: "0.125rem",
+              textDecoration: "none",
+            }}
           >
             About
           </a>
@@ -81,7 +160,13 @@ const Navbar = ()=>{
         <li>
           <a
             href="#"
-            className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0"
+            style={{
+              display: "block",
+              padding: "0.5rem 0.75rem",
+              color: "#111827",
+              borderRadius: "0.125rem",
+              textDecoration: "none",
+            }}
           >
             Services
           </a>
@@ -89,7 +174,13 @@ const Navbar = ()=>{
         <li>
           <a
             href="#"
-            className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0"
+            style={{
+              display: "block",
+              padding: "0.5rem 0.75rem",
+              color: "#111827",
+              borderRadius: "0.125rem",
+              textDecoration: "none",
+            }}
           >
             Contact
           </a>
@@ -98,6 +189,7 @@ const Navbar = ()=>{
     </div>
   </div>
 </nav>
+
 ;
 }
 
