@@ -103,12 +103,8 @@ function PGList() {
 export default function Home() {
   return (
     <div>
-<<<<<<< HEAD
       <Header />
       <PGList />
-=======
-      <Header/>
->>>>>>> 37f2d5c (Navbar updated)
-    </div>
+      </div>
   );
 }
