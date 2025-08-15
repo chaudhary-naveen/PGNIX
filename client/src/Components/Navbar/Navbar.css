@@ -1,0 +1,39 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;700;800&display=swap");
+
+.pgnix-logo {
+  position: relative;
+  width: 100px;  /* fixed width */
+  height: 30px;  /* proportional height */
+  transform: scale(1.2);
+  margin-left: 10px;
+}
+
+.pgnix-logo::before,
+.pgnix-logo::after {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(90deg, #2c67f2 0%, #3aa9d9 45%, #67c6b5 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  white-space: nowrap;
+}
+
+/* Bold "pg" */
+.pgnix-logo::before {
+  content: "Pg";
+  left: 0;
+  font-weight: 800;
+  font-size: 1.4em; /* scales with container */
+}
+
+/* Light "nix" */
+.pgnix-logo::after {
+  content: "NIX";
+  left: 30px; /* position after "pg" */
+  font-weight: 300;
+  font-size: 1.4em;
+  letter-spacing: 0.04em;
+}
