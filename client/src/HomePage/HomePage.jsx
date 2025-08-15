@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 // Header Component
 function Header() {
   return (
-    <header className="flex items-center justify-between px-5 py-3 bg-[#0D1B2A] text-[#E0E1DD]">
+    <header className="flex flex-col items-center justify-between px-5 py-3 bg-[#0D1B2A] text-[#E0E1DD]">
       <div className="flex-2 text-center">
         <input
           type="text"
@@ -14,6 +14,10 @@ function Header() {
         <button className="px-3 py-1 ml-2 text-[#1B263B] bg-[#E0E1DD] rounded hover:bg-[#E0E1DF] transition-colors">
           Search Properties
         </button>
+      </div>
+      <div>
+        <h1 className="text-2xl font-bold">Showing Properties in Sector 62, Noida</h1>
+        <p className="text-sm text-gray-400">Filters : Bachelor, Male, Parking</p>
       </div>
     </header>
   );
