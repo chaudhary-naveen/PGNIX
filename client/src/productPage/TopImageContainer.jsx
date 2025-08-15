@@ -81,7 +81,7 @@ function srcset(image, size, rows = 1, cols = 1) {
 const TopImageContainer = () => {
   return (
      <ImageList
-      sx={{ width: 700, height: 450 ,overflow:"hidden"}}
+      sx={{ width: "100%", height: 500 ,overflow:"hidden"}}
       variant="quilted"
       cols={4}
       rowHeight={121}

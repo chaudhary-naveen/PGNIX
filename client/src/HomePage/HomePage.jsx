@@ -31,6 +31,35 @@ function Header() {
   );
 }
 
+// PG Card Component (for reusability)
+function PGCard({ pg }) {
+  return (
+    <div className="bg-white rounded-lg shadow p-4 border hover:shadow-lg transition">
+      <img
+        src={pg.image}
+        alt={pg.name}
+        className="w-full h-40 object-cover rounded-md mb-3"
+      />
+      <h2 className="text-xl font-semibold text-blue-700 mb-2">{pg.name}</h2>
+      <p className="text-gray-600">{pg.location}</p>
+      <p className="text-gray-600">Rent: ₹{pg.rent}</p>
+      <p
+        className={`font-semibold ${
+          pg.available ? "text-green-600" : "text-red-600"
+        }`}
+      >
+        {pg.available ? "Available" : "Not Available"}
+      </p>
+      <button
+        className="mt-4 px-4 py-2 rounded text-white bg-blue-500 hover:bg-blue-600"
+        onClick={() => alert(`Viewing details for ${pg.name}`)}
+      >
+        View
+      </button>
+    </div>
+  );
+}
+
 // PG List Component
 function PGList() {
   const pgData = [
@@ -64,36 +93,7 @@ function PGList() {
   return (
     <div className="p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
       {pgData.map((pg) => (
-        <div
-          key={pg.id}
-          className="bg-white rounded-lg shadow p-4 border hover:shadow-lg transition"
-        >
-          <img
-            src={pg.image}
-            alt={pg.name}
-            className="w-full h-40 object-cover rounded-md mb-3"
-          />
-          <h2 className="text-xl font-semibold text-blue-700 mb-2">{pg.name}</h2>
-          <p className="text-gray-600">{pg.location}</p>
-          <p className="text-gray-600">Rent: ₹{pg.rent}</p>
-          <p
-            className={`font-semibold ${
-              pg.available ? "text-green-600" : "text-red-600"
-            }`}
-          >
-            {pg.available ? "Available" : "Not Available"}
-          </p>
-          <button
-            className={`mt-4 px-4 py-2 rounded text-white ${
-              pg.available
-                ? "bg-blue-500 hover:bg-blue-600"
-                : "bg-gray-400 cursor-not-allowed"
-            }`}
-            disabled={!pg.available}
-          >
-            {pg.available ? "Book Now" : "Unavailable"}
-          </button>
-        </div>
+        <PGCard key={pg.id} pg={pg} />
       ))}
     </div>
   );
@@ -105,6 +105,6 @@ export default function Home() {
     <div>
       <Header />
       <PGList />
-    </div>
+      </div>
   );
 }
