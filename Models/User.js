@@ -28,7 +28,7 @@ const USER = new Schema({
     },
     dob: {
         type: Date,
-    },
+    }
 }, { timestamps: true });
 
 const User = mongoose.model("User", USER);
