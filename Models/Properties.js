@@ -2,6 +2,11 @@ const mongoose = require("mongoose");
 
 const propertySchema = mongoose.Schema(
   {
+    owner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
     propertyName: {
       type: String,
       required: true,
