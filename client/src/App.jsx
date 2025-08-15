@@ -6,6 +6,7 @@ import {
   useNavigate,
   Link,
 } from "react-router-dom";
+import Dashboard from "./Components/Dashboard/Dashboard";
 
 import HomePage from "./HomePage/HomePage";
 import Signin from "./Components/Signin/Signin";
@@ -22,6 +23,7 @@ function App() {
         <Route path="/welcome" element={<Signin></Signin>}></Route>
         <Route path="/login" element={<Login></Login>}></Route>
         <Route path="/product" element={<ProductPage></ProductPage>}></Route>
+        <Route path="/dashboard" element={<Dashboard />}></Route>
       </Routes>
     </>
   );
