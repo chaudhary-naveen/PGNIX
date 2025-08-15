@@ -11,6 +11,7 @@ const port = process.env.PORT || 5001;
 const routes = require("./routes/routes.js");
 const userRoute = require("./routes/user.routes.js");
 const ownerRoutes = require("./routes/owner.routes.js");
+const pgRoutes = require("./routes/property.routes.js");
 
 app.use(cors());
 app.use(express.json());
@@ -23,13 +24,13 @@ connectdb();
 app.use(express.static(path.join(__dirname, "client", "dist")));
 
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "client", "dist", "index.html")); 
+  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
 });
 
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/owner", ownerRoutes);
-app.use('/api',routes);
-
+app.use("/api/v1/owner/pg", pgRoutes);
+app.use("/api", routes);
 
 const server = app.listen(port, () => {
   console.log(`run on the this ${port}`);
