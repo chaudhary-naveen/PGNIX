@@ -29,6 +29,7 @@ const USER = new Schema(
       default: "user",
     },
     dob: {
+<<<<<<< HEAD
       type: Date,
     },
     properties: [
@@ -40,6 +41,11 @@ const USER = new Schema(
   },
   { timestamps: true }
 );
+=======
+        type: Date,
+    }
+}, { timestamps: true });
+>>>>>>> 69fe0fc19bb2913bc01bf6c5da41819b600f6685
 
 const User = mongoose.model("User", USER);
 module.exports = User;
