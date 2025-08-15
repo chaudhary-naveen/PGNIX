@@ -1,2 +1,2 @@
-const path = "htpps://localhost:5001/api";
+const path = "http://localhost:5001";
 export default path;

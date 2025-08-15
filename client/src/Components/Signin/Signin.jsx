@@ -12,57 +12,33 @@ import { Chip } from "@mui/material";
 import path from "../../path";
 import axios from "axios";
 import { addUser } from "../../utils/slices/userSlice";
-import {useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 import LinearProgress from '@mui/material/LinearProgress';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
 const Signin = () => {
+
   const [activeStep, setActiveStep] = useState(0);
   const [error, setError] = useState("");
-  const [otp,setOtp] = useState();
+  const [otp, setOtp] = useState();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setconfirm] = useState("");
-  const [username, setusername] = useState("");
   const [firstname, setfirstname] = useState("");
   const [lastname, setlastname] = useState("");
   const [dob, setdob] = useState("");
   const [gender, setgender] = useState("male");
-  const [designation, setdesignation] = useState("");
-  const [organisation, setorganisation] = useState("");
-  const [city, setcity] = useState("");
-  const [skills, setskills] = useState([]);
-  const [load,setload] = useState(false);
-  const [disabled,setDisabled] = useState(true);
-  const [isUserUnique,setUserUnique] = useState(true);
-  const [aSkill,setASkill] = useState("");
+  const [load, setload] = useState(false);
+  const [role, setRole] = useState("user");
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   let passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm;
-   
-  const skillselecthandle = (e) => {
-    console.log(e);
-    if (e.keyCode == "13") {
-      if (e.target.value.length > 0)
-        setskills([...skills, e.target.value.toUpperCase().trim()]);
-      e.target.value = "";
-      setASkill("");
-    }
-  };
 
-  const deleteSkill = (e)=>{
-    let skillTemp = skills;
-    skillTemp = skillTemp.filter((ele)=>{
-      return ele != e;
-    })
-    console.log(skillTemp);
-    setskills(skillTemp);
-    return;
-  }
 
   const validate = () => {
     if (!emailRegex.test(email) && email.length > 0) {
@@ -82,145 +58,92 @@ const Signin = () => {
     return true;
   };
 
-  const isEmpty = () => {
-    if (
-      !username ||
-      !email ||
-      !password ||
-      !firstname ||
-      !lastname ||
-      !dob ||
-      !designation ||
-      skills.length == 0
-    ) {
-      setError("Mandatory field is Empty. Fill up and try again");
-      return false;
-    }
-    setError("");
-    return true;
-  };
 
-  const handleSubmitOtp = (e)=>{
-     console.log(e);
-
-     if(e.target.value == ''){
+  const handleSubmitOtp = (e) => {
+    if (e.target.value == '') {
       setOtp('');
-     }
-     if(e.target.value.length <=6 && e.target.value.slice(-1)>='0' && e.target.value.slice(-1)<='9'){
-      console.log("run")
+    }
+    if (e.target.value.length <= 6 && e.target.value.slice(-1) >= '0' && e.target.value.slice(-1) <= '9') {
       setOtp(e.target.value);
-     }
-
+    }
   };
 
-  const handleSubmitSignin = async ()=>{
-     if(otp.length<6){
+  const handleSubmitSignin = async () => {
+    if (otp.length < 6) {
       toast.error("OTP should be 6 digit");
       return;
-     }
+    }
+    setload(true);
+    try {
 
-      setload(true);
-      try{
+      const response = await axios.post(`${path}/api/create`, {
+        email,
+        otp,
+        password,
+        firstname,
+        gender,
+        lastname,
+        dob,
+      });
 
-          const response = await axios.post(`${path}signin`,{
-          email,
-          otp,
-          username,
-          password,
-          firstname,
-          gender,
-          lastname,
-          dob,
-          designation,
-          skills,
-          city,
-          organisation
-        });
 
-        console.log(response);
-
-        if(response.data.success){
-            
-            dispatch(addUser(response.data.msg));
-            navigate('../');
-            setError("");
-        }
-        else{
-          toast.error(response.data.msg);
-          setError(response.data.msg)
-        }
+      if (response.data.success) {
+        dispatch(addUser(response.data.user));
+        navigate('../');
+        setError("");
       }
-      catch(err){
-        console.log(error);
+      else {
+        toast.error(response.data.message);
+        setError(response.data.message)
       }
-
-      setload(false);
+    }
+    catch (err) {
+      console.log(error);
+    }
+    setload(false);
   };
 
 
   const submitHandler = async () => {
-    // if (validate() && isEmpty() && isUserUnique) {
-      if(1){
+    try {
       setload(true);
-      const res = await axios.post(`${path}register`, {
-        email
+      const res = await axios.get(`${path}/api/exist`, {
+        params: { email }
       });
       console.log(res);
-      if(res.data.success){
+      if (res.data.exists == false) {
         setActiveStep(2);
+      } else if (res.status == 404) {
+        toast.error("Owner with this email already exist");
+      } else {
+        setError("Something went wrong");
       }
-      setload(false);
+    } catch (err) {
+      console.error(err);
     }
-    else{
-      toast.error("Please ! Fill correct details");
-    }
-  };
-
-  
-
-  const userNameChangeHandler = async ()=>{
-      try{
-          const response = await axios.get(`${path}getUserName?user=${username}`);
-          console.log(response);
-
-          if(!response.data.isUserUnique){
-            toast.error("Username is not available",{
-              className: "toast-message"
-            });
-          }else{
-            toast.success("Username is available");
-          }
-
-          setUserUnique(response.data.isUserUnique);
-      }
-      catch(err){
-        toast.error("Error Occured in Fetchin Username");
-      }
+    setload(false);
   };
 
   return (
     <div className="signin">
-    {load && <LinearProgress></LinearProgress>}
+      {load && <LinearProgress></LinearProgress>}
       <ToastContainer></ToastContainer>
-      
-      <div className="stepper">
-      <Stepper activeStep={activeStep}>
-        <Step>
-          <StepLabel></StepLabel>
-        </Step>
-        <Step>
-          <StepLabel></StepLabel>
-        </Step>
-        <Step>
-          <StepLabel></StepLabel>
-        </Step>
-        <Step>
-          <StepLabel></StepLabel>
-        </Step>
-      </Stepper>
-    </div>
 
-      
+      <div className="stepper">
+        <Stepper activeStep={activeStep}>
+          <Step>
+            <StepLabel></StepLabel>
+          </Step>
+          <Step>
+            <StepLabel></StepLabel>
+          </Step>
+          <Step>
+            <StepLabel></StepLabel>
+          </Step>
+        </Stepper>
+      </div>
+
+
 
       <div className="signin-button">
         <Button
@@ -240,14 +163,14 @@ const Signin = () => {
             <div className="login-box">
               <div className="login-box-title">Welcome</div>
 
-             <div className="login-box-field">
+              <div className="login-box-field">
                 <p>Choose your role</p>
                 <select
-                  value={gender}
-                  onChange={(e) => setgender(e.target.value)}
+                  value={role}
+                  onChange={(e) => setRole(e.target.value)}
                 >
-                  <option value={"male"}>To search Properties</option>
-                  <option value={"female"}>To manage Properties</option>
+                  <option value={"user"}>To search Properties</option>
+                  <option value={"owner"}>To manage Properties</option>
                 </select>
               </div>
 
@@ -269,8 +192,9 @@ const Signin = () => {
                   onBlur={validate}
                 ></input>
               </div>
+
               <div className="login-box-field">
-                <p>Verify</p>
+                <p>Verify Password</p>
                 <input
                   type="password"
                   value={confirm}
@@ -284,61 +208,60 @@ const Signin = () => {
             </div>
           </>
         ) : // second panel
-        activeStep == 1 ? (
-          <>
-            <div className="login-box">
-              <div className="login-box-title">Tell us more</div>
-              <div className="login-box-field">
-                <p>First Name</p>
-                <input
-                  value={firstname}
-                  onChange={(e) => setfirstname(e.target.value)}
-                  placeholder=""
-                ></input>
-              </div>
-              <div className="login-box-field">
-                <p>Last name</p>
-                <input
-                  value={lastname}
-                  onChange={(e) => setlastname(e.target.value)}
-                ></input>
-              </div>
+          activeStep == 1 ? (
+            <>
+              <div className="login-box">
+                <div className="login-box-title">Tell us more</div>
+                <div className="login-box-field">
+                  <p>First Name</p>
+                  <input
+                    value={firstname}
+                    onChange={(e) => setfirstname(e.target.value)}
+                    placeholder=""
+                  ></input>
+                </div>
+                <div className="login-box-field">
+                  <p>Last name</p>
+                  <input
+                    value={lastname}
+                    onChange={(e) => setlastname(e.target.value)}
+                  ></input>
+                </div>
 
-              <div className="login-box-field">
-                <p>Date of Birth</p>
-           
-                <input
-                  type="date"
-                  value={dob}
-                  onChange={(e) => setdob(e.target.value)}
-                ></input>
-              </div>
-              <div className="login-box-field">
-                <p>Gender</p>
-                <select
-                  value={gender}
-                  onChange={(e) => setgender(e.target.value)}
-                >
-                  <option value={"male"}>Male</option>
-                  <option value={"female"}>Female</option>
-                  <option value={"other"}>Other</option>
-                </select>
-              </div>
+                <div className="login-box-field">
+                  <p>Date of Birth</p>
+                  <input
+                    type="date"
+                    value={dob}
+                    onChange={(e) => setdob(e.target.value)}
+                  ></input>
+                </div>
+                <div className="login-box-field">
+                  <p>Gender</p>
+                  <select
+                    value={gender}
+                    onChange={(e) => setgender(e.target.value)}
+                  >
+                    <option value={"male"}>Male</option>
+                    <option value={"female"}>Female</option>
+                    <option value={"other"}>Other</option>
+                  </select>
+                </div>
 
-              <div className="login-box-error">{error}</div>
-            </div>
-            <div className="login-side-display"></div>
-          </>
-        ) : 
-         activeStep == 2 ? <div className="otp">
-                  <div>OTP Verification</div>
-                  <p>Enter otp sent to {email}</p>
-                  <div className="otp-inbox">
-                      <input onChange={handleSubmitOtp} value={otp} type="text"></input>
-                  </div>
-                  <div className="login-box-error" style={{fontSize:"12px"}}>{error}</div>
-                  <Button variant="contained" fullWidth onClick={handleSubmitSignin} disabled={load}>Verify</Button>
-          </div> : ""
+                <div className="login-box-error">{error}</div>
+              </div>
+              <div className="login-side-display"></div>
+            </>
+          ) :
+            activeStep == 2 ? <div className="otp">
+              <div>OTP Verification</div>
+              <p>Enter otp sent to {email}</p>
+              <div className="otp-inbox">
+                <input onChange={handleSubmitOtp} value={otp} type="text"></input>
+              </div>
+              <div className="login-box-error" style={{ fontSize: "12px" }}>{error}</div>
+              <Button variant="contained" fullWidth onClick={handleSubmitSignin} disabled={load}>Verify</Button>
+            </div> : ""
         }
 
 
@@ -360,7 +283,7 @@ const Signin = () => {
             onClick={() => setActiveStep(activeStep + 1)}
           >
             Next
-          </Button> :""
+          </Button> : ""
         }
       </div>
 

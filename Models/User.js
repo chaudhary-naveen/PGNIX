@@ -2,10 +2,13 @@ const { Schema } = require("mongoose");
 const mongoose = require('mongoose');
 
 const USER = new Schema({
-    name: {
+    firstname: {
         type: String,
-        required: true,
+       
     },
+    lastname: {
+        type: String },
+
     email: {
         type: String,
     },
@@ -15,7 +18,6 @@ const USER = new Schema({
     },
     phone: {
         type: String,
-        required: true,
     },
     address: {
         type: String,
@@ -27,7 +29,6 @@ const USER = new Schema({
     dob: {
         type: Date,
     },
-
 }, { timestamps: true });
 
 const User = mongoose.model("User", USER);

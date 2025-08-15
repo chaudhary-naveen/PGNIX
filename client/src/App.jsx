@@ -13,8 +13,16 @@ import Signin from "./Components/Signin/Signin";
 import Login from "./Components/Signin/Login";
 import Navbar from "./Components/Navbar/Navbar";
 import ProductPage from "./productPage/ProductPage";
+import { useEffect } from "react";
+import axios from "axios";
+import path from "./path";
 
 function App() {
+  
+  useEffect(() => { 
+    axios.get(`${path}/api/active`)
+  },[]);
+
   return (
     <>
       <Navbar></Navbar>
