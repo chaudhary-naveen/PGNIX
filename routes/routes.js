@@ -1,5 +1,5 @@
 const express = require('express');
-const { checkIfOwnerExist, createUser } = require('../Controllers/user.controller');
+const { checkIfOwnerExist, createUser, loginUser } = require('../Controllers/user.controller');
 const router = express.Router();
 
 router.get('/', (req, res) => {
@@ -13,5 +13,6 @@ router.get('/active',(req,res)=>{
  
 router.get('/exist',checkIfOwnerExist);
 router.post('/create',createUser);
+router.post('/login', loginUser);
 
 module.exports = router;

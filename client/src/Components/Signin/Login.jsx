@@ -1,11 +1,3 @@
-
-
-
-
-
-
-
-
 import React, { useEffect, useRef, useState } from "react";
 import "./signin.css";
 import { Button, TextField, IconButton, Icon } from "@mui/material";
@@ -61,7 +53,7 @@ const Login = () => {
   const submitHandler = async () => {
     setload(true);
     if (validate) {
-      const response = await axios.post(`${path}login`, {
+      const response = await axios.post(`${path}/api/login`, {
         password: passwordref.current.value,
         email: emailref.current.value,
       });

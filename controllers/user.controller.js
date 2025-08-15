@@ -14,20 +14,19 @@ const checkIfOwnerExist = async (req, res) => {
     if (user) {
       return res.status(404).json({ exists: true, message: "Owner already exists" });
     } else {
-     
+
       const otp = await generateOtp();
-      
+
       await OTP.deleteMany({ email });
       await OTP.create({ otp, email });
       await sendByEmail(email, otp);
-
-      return res.status(200).json({ exists: false , message: "Owner found" });
+      console.log("OTP sent to email:", email + " with OTP: " + otp);
+      return res.status(200).json({ exists: false, message: "Owner found" });
     }
   } catch (err) {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 }
-
 const createUser = async (req, res) => {
   try {
 
@@ -62,13 +61,8 @@ const createUser = async (req, res) => {
         gender
       });
 
-      user.password = "Hidden";
-
-      res.send({
-        success: true,
-        msg: user
-      });
-
+      user = user.toObject();
+      delete user.password;
       return res.status(200).json({ success: true, msg: "User created successfully", user });
     } else {
       return res.status(400).json({ success: false, msg: "Invalid OTP" });
@@ -82,8 +76,33 @@ const createUser = async (req, res) => {
   }
 };
 
+
+const loginUser = async (req, res) => {
+  const { email, password } = req.body; 
+  if (!email || !password) {
+    return res.status(400).json({ message: "Email and password are required" });
+  }
+  try {
+    const user = await User.findOne({ email: email });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    } 
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) { 
+      return res.status(400).json({ message: "Invalid password" });
+    } 
+    const userData = user.toObject();
+    delete userData.password;
+    return res.status(200).json({ message: "Login successful", user: userData , success: true});
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+}
+
 module.exports = {
   checkIfOwnerExist,
-  createUser
+  createUser,
+  loginUser
   // other exports can go here
 };
