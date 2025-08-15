@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 // Header Component
 function Header() {
@@ -20,7 +21,8 @@ function Header() {
 
 // PG Card Component (for reusability)
 // ...existing code...
-function PGCard({ pg }) {
+function PGCard({ pg }){
+  const navigate = useNavigate();
   return (
     <div className="flex bg-[#1B263B] rounded-2xl shadow p-4 border border-[#415A77] hover:shadow-lg transition items-center space-x-6">
       <img
@@ -42,7 +44,7 @@ function PGCard({ pg }) {
       </div>
       <button
         className="px-4 py-2 rounded-xl text-[#0D1B2A] bg-[#E0E1DD] hover:bg-[#C6C7C4] transition-colors rounded"
-        onClick={() => alert(`Viewing details for ${pg.name}`)}
+        onClick={() => navigate('/product')}
       >
         View Property
       </button>

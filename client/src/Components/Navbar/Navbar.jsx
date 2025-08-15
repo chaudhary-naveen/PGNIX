@@ -15,6 +15,8 @@ import AdbIcon from '@mui/icons-material/Adb';
 import logo from './../../assets/logo.jpeg'
 import PersonIcon from '@mui/icons-material/Person';
 import { useNavigate } from 'react-router';
+import './Navbar.css';
+
 
 
 const pages = ["Home","About","Contact","Service"];
@@ -50,13 +52,11 @@ const Navbar =()=>{
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <div className='flex items-center gap-2 mx-8'>
+          <div className='flex items-center gap-2 mx-8' onClick={()=>navigate('/')}>
             <Box sx={{borderRadius:"50%",overflow:'hidden'}}>
                 <img src={logo} alt="" width={40}/>
             </Box>
-            <Box sx={{fontWeight:700}}>
-              PGNIX
-            </Box>
+           <div class="pgnix-logo" aria-label="pgnix logo"></div>
           </div>
           {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Typography
@@ -144,9 +144,8 @@ const Navbar =()=>{
           </Box>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar>
-                  <PersonIcon/>
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }} >
+                <Avatar color='secondary' alt='N'>  
                 </Avatar>
               </IconButton>
             </Tooltip>
