@@ -1,12 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
-  Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead,
-  TablePagination, TableRow, TableSortLabel, Toolbar, Typography,
-  IconButton, Tooltip
-} from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import FilterListIcon from '@mui/icons-material/FilterList';
-import { visuallyHidden } from '@mui/utils';
+  Box,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
+  TableSortLabel,
+  Toolbar,
+  Typography,
+  IconButton,
+  Tooltip,
+} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import FilterListIcon from "@mui/icons-material/FilterList";
+import { visuallyHidden } from "@mui/utils";
 
 function createData(id, name, location, status) {
   return { id, name, location, status };
@@ -19,20 +30,21 @@ function descendingComparator(a, b, orderBy) {
   return 0;
 }
 function getComparator(order, orderBy) {
-  return order === 'desc'
+  return order === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
 const headCells = [
-  { id: 'name', label: 'Property Name' },
-  { id: 'location', label: 'Location' },
-  { id: 'status', label: 'Status' }
+  { id: "name", label: "Property Name" },
+  { id: "location", label: "Location" },
+  { id: "status", label: "Status" },
 ];
 
 function EnhancedTableHead({ order, orderBy, onRequestSort }) {
-  const createSortHandler = (property) => (event) => onRequestSort(event, property);
-  
+  const createSortHandler = (property) => (event) =>
+    onRequestSort(event, property);
+
   return (
     <TableHead>
       <TableRow>
@@ -41,17 +53,21 @@ function EnhancedTableHead({ order, orderBy, onRequestSort }) {
             key={headCell.id}
             align="center"
             sortDirection={orderBy === headCell.id ? order : false}
-            sx={{ fontWeight: 'bold',borderBottom:"1px solid black" }}
+            sx={{
+              fontWeight: "bold",
+              borderBottom: "1px solid black",
+              color: "black",
+            }}
           >
             <TableSortLabel
               active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
+              direction={orderBy === headCell.id ? order : "asc"}
               onClick={createSortHandler(headCell.id)}
             >
               {headCell.label}
               {orderBy === headCell.id && (
                 <Box component="span" sx={visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                  {order === "desc" ? "sorted descending" : "sorted ascending"}
                 </Box>
               )}
             </TableSortLabel>
@@ -64,11 +80,14 @@ function EnhancedTableHead({ order, orderBy, onRequestSort }) {
 
 function EnhancedTableToolbar({}) {
   return (
-    <Toolbar
-      sx={{ pl: 2, pr: 1 }}
-    >
+    <Toolbar sx={{ pl: 2, pr: 1 }}>
       <Typography
-        sx={{ flex: '1 1 100%' ,fontSize:"1.5rem",fontWeight:700,color:"black"}}
+        sx={{
+          flex: "1 1 100%",
+          fontSize: "1.5rem",
+          fontWeight: 700,
+          color: "black",
+        }}
         variant="h6"
         component="div"
       >
@@ -79,9 +98,13 @@ function EnhancedTableToolbar({}) {
   );
 }
 
-export default function PgTableListDashBoard({ dashboardData,setSelectPg ,setOpen}) {
-  const [order, setOrder] = useState('asc');
-  const [orderBy, setOrderBy] = useState('name');
+export default function PgTableListDashBoard({
+  dashboardData,
+  setSelectPg,
+  setOpen,
+}) {
+  const [order, setOrder] = useState("asc");
+  const [orderBy, setOrderBy] = useState("name");
   const [page, setPage] = useState(0);
   const [rows, setRows] = useState([]);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -95,8 +118,8 @@ export default function PgTableListDashBoard({ dashboardData,setSelectPg ,setOpe
   }, [dashboardData]);
 
   const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
 
@@ -115,37 +138,67 @@ export default function PgTableListDashBoard({ dashboardData,setSelectPg ,setOpe
   );
 
   return (
-    <Box sx={{ width: '100%'}}>
-      <Paper  sx={{ backgroundColor:"#E0E1DD",color:"white", width: '100%', mb: 2, overflow: 'hidden' ,display:"flex",flexDirection:"column",alignItems:"center",gap:"20px"}}>
+    <Box sx={{ width: "100%" }}>
+      <Paper
+        sx={{
+          backgroundColor: "#E0E1DD",
+          color: "black",
+          width: "100%",
+          mb: 2,
+          overflow: "hidden",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "20px",
+        }}
+      >
         <EnhancedTableToolbar />
-        <TableContainer sx={{width:"70%"}}>
+        <TableContainer sx={{ width: "70%", color: "black" }}>
           <Table>
             <EnhancedTableHead
               order={order}
               orderBy={orderBy}
               onRequestSort={handleRequestSort}
-              
             />
             <TableBody>
               {visibleRows.map((row) => (
-                <TableRow hover tabIndex={1} key={row.id} sx={{
-    borderBottom: 'none', // Remove row separator
-    '&:hover': {
-      backgroundColor: 'black', // Set background color to black on hover
-      color: 'black', // Change text color to white on hover
-      '& .MuiTableCell-root': {
-        cursor:"pointer",
-        color: 'white', // Ensure cell text is white on hover
-        backgroundColor:"#0D1B2A"
-      },
-    },
-  }} onClick={()=>{
-    setOpen(true)
-    setSelectPg(row.id)
-  }}>
-                  <TableCell align="center">{row.name}</TableCell>
-                  <TableCell align="center">{row.location}</TableCell>
-                  {row.status=="Active"? <TableCell align="center" style={{color:"green"}}>{row.status}</TableCell> :<TableCell align="center" style={{color:"red"}}>{row.status}</TableCell>} 
+                <TableRow
+                  hover
+                  tabIndex={1}
+                  key={row.id}
+                  sx={{
+                    color: "black",
+                    borderBottom: "none", // Remove row separator
+                    "&:hover": {
+                      backgroundColor: "black", // Set background color to black on hover
+                      color: "black", // Change text color to white on hover
+                      "& .MuiTableCell-root": {
+                        cursor: "pointer",
+                        color: "white", // Ensure cell text is white on hover
+                        backgroundColor: "#0D1B2A",
+                      },
+                    },
+                  }}
+                  onClick={() => {
+                    setOpen(true);
+                    setSelectPg(row.id);
+                  }}
+                >
+                  <TableCell align="center" sx={{ color: "black" }}>
+                    {row.name}
+                  </TableCell>
+                  <TableCell align="center" sx={{ color: "black" }}>
+                    {row.location}
+                  </TableCell>
+                  {row.status == "Active" ? (
+                    <TableCell align="center" style={{ color: "green" }}>
+                      {row.status}
+                    </TableCell>
+                  ) : (
+                    <TableCell align="center" style={{ color: "red" }}>
+                      {row.status}
+                    </TableCell>
+                  )}
                 </TableRow>
               ))}
               {visibleRows.length === 0 && (
