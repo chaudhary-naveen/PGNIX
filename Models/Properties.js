@@ -34,8 +34,7 @@ const propertySchema = mongoose.Schema(
     },
     Ac_rooms: {
       type: Number,
-      deafult: 0,
-      //check krega ki ac_rooms less or equal ho total_room se
+      default: 0,
       validate: {
         validator: function (value) {
           return value <= this.totalRooms;
@@ -43,7 +42,6 @@ const propertySchema = mongoose.Schema(
         message: "AC rooms must be less than or equal to total rooms",
       },
     },
-
     isFurnished: {
       type: Boolean,
       default: false,
@@ -60,8 +58,13 @@ const propertySchema = mongoose.Schema(
     description: {
       type: String,
     },
+    typesOfRoom: {
+      type: String,
+      enum: ["single", "double", "triple"],
+      required: true,
+    },
   },
-  { timeStamps: true }
+  { timestamps: true }
 );
 
 module.exports = mongoose.model("Property", propertySchema);

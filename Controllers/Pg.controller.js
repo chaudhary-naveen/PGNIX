@@ -1,6 +1,7 @@
 const User = require("../Models/User");
 const Property = require("../models/Properties");
 
+// add pg
 const AddPg = async (req, res) => {
   try {
     const {
@@ -13,6 +14,7 @@ const AddPg = async (req, res) => {
       Ac_rooms,
       isFurnished,
       description,
+      typesOfRoom,
     } = req.body;
 
     //get owner id
@@ -47,6 +49,7 @@ const AddPg = async (req, res) => {
       isFurnished,
       description,
       owner: owner_id,
+      typesOfRoom,
     });
     const savedProperty = await newProperty.save();
 
@@ -65,6 +68,7 @@ const AddPg = async (req, res) => {
   }
 };
 
+// edit pg
 const editPg = async (req, res) => {
   try {
     //get the id -> jisse tum edit krna cahte ho
@@ -115,6 +119,8 @@ const editPg = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
+// get all personal pg
 const getAllPg = async (req, res) => {
   try {
     const owner_id = req.user._id;
@@ -134,6 +140,7 @@ const getAllPg = async (req, res) => {
   }
 };
 
+// get specific pg
 const getGivenPg = async (req, res) => {
   try {
     //jis pg ko dekhna hi uski id nikaal lo
@@ -160,6 +167,7 @@ const getGivenPg = async (req, res) => {
   }
 };
 
+// delete personal pg
 const removePg = async (req, res) => {
   try {
     const propertyId = req.params.id;
@@ -188,4 +196,67 @@ const removePg = async (req, res) => {
   }
 };
 
-module.exports = { AddPg, editPg, getAllPg, getGivenPg, removePg };
+//ye hi filter krne wala controler
+const filterPg = async (req, res) => {
+  try {
+    const {
+      location,
+      roomTypes, //ye yaar list ayegi like ki agr kisi ko single aur double dekhna ho pr triple nhi to
+      propertyName,
+      minRent,
+      maxRent,
+      co_ed,
+      isFurnished,
+    } = req.query;
+
+    let filter = {};
+
+    // Location filter pr  case-insensitive
+    if (location) {
+      filter.location = { $regex: location, $options: "i" };
+    }
+
+    // Property name filter (case-insensitive)
+    if (propertyName) {
+      filter.propertyName = { $regex: propertyName, $options: "i" };
+    }
+
+    // Room Types filter
+    if (roomTypes) {
+      const typesArray = roomTypes.split(",").map((t) => t.trim());
+      filter.typesOfRoom = { $in: typesArray };
+    }
+
+    // Rent range filter
+    if (minRent || maxRent) {
+      filter.rent = {};
+      if (minRent) filter.rent.$gte = Number(minRent);
+      if (maxRent) filter.rent.$lte = Number(maxRent);
+    }
+
+    // Co-ed filter
+    if (co_ed !== undefined) {
+      filter.co_ed = co_ed === "true";
+    }
+
+    // isFurnished filter
+    if (isFurnished !== undefined) {
+      filter.isFurnished = isFurnished === "true";
+    }
+    // ab jo bhi filter lgaye ho uso ke acc property ayegi
+    const properties = await Property.find(filter)
+      .populate("owner", "firstname lastname email phone")
+      .sort({ createdAt: -1 });
+
+    return res.status(200).json({
+      message: "Filtered properties fetched successfully",
+      count: properties.length,
+      properties,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
+module.exports = { AddPg, editPg, getAllPg, getGivenPg, removePg, filterPg };

@@ -12,6 +12,7 @@ const routes = require("./routes/routes.js");
 const userRoute = require("./routes/user.routes.js");
 const ownerRoutes = require("./routes/owner.routes.js");
 const pgRoutes = require("./routes/property.routes.js");
+const filterPg = require("./routes/filterPg.routes.js");
 
 app.use(cors());
 app.use(express.json());
@@ -30,6 +31,7 @@ app.get("/", (req, res) => {
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/owner", ownerRoutes);
 app.use("/api/v1/owner/pg", pgRoutes);
+app.use("/api/v1/pg/filter", filterPg);
 app.use("/api", routes);
 
 const server = app.listen(port, () => {

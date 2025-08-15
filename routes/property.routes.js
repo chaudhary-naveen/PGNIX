@@ -6,6 +6,7 @@ const {
   getAllPg,
   getGivenPg,
   removePg,
+  filterPg,
 } = require("../controllers/Pg.controller");
 
 // ******************Private Routes (owner)*************************
@@ -35,6 +36,9 @@ router.delete("/delete/:id", removePg);
 //Get
 //api/v1/owner/pg/:id
 router.get("/:id", getGivenPg);
+
+// filter pg
+// Get
 
 // ####rest according to need add krenge apn log############
 
