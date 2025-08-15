@@ -141,7 +141,7 @@ export default function PgTableListDashBoard({
     <Box sx={{ width: "100%" }}>
       <Paper
         sx={{
-          backgroundColor: "#E0E1DD",
+          backgroundColor: "#000000ff",
           color: "black",
           width: "100%",
           mb: 2,
