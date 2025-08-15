@@ -47,11 +47,9 @@ const Navbar =()=>{
     }
   };
   return <>
-    <AppBar position="static"sx={{bgcolor:"black"}}>
+    <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-
-
           <div className='flex items-center gap-2 mx-8'>
             <Box sx={{borderRadius:"50%",overflow:'hidden'}}>
                 <img src={logo} alt="" width={40}/>
@@ -106,13 +104,14 @@ const Navbar =()=>{
               onClose={handleCloseNavMenu}
               sx={{ display: { xs: 'block', md: 'none' } }}
             >
-              {pages.map((page) => (
+              {/* {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <Typography sx={{ textAlign: 'center' }}>{page}</Typography>
                 </MenuItem>
-              ))}
+              ))} */}
             </Menu>
           </Box>
+
           <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Typography
             variant="h5"
@@ -133,7 +132,7 @@ const Navbar =()=>{
             LOGO
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
+            {/* {pages.map((page) => (
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
@@ -141,7 +140,7 @@ const Navbar =()=>{
               >
                 {page}
               </Button>
-            ))}
+            ))} */}
           </Box>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">

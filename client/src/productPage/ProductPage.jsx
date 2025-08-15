@@ -11,12 +11,10 @@ const ProductPage = () => {
     <Box sx={{padding:"40px",bgcolor:"#0D0D0D"}}>
        <TopView/>
     </Box>
-
     <Box sx={{backgroundColor:"#525252"}}>
         <Box >
           <RoomsDetails/>
         </Box>
-
         <Box sx={{padding:"40px"}}>
            <CommonAminities/>
         </Box>

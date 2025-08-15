@@ -27,12 +27,12 @@ const data = [
         icon:<OutdoorGrillIcon/>
     }
 ]
+
 const CommonAminities = () => {
   return (
     <>
     <div className='container' style={{outline:"1px solid gray",borderRadius:"10px",padding:"20px",color:"white",backgroundColor:"#242424"}}>
         <h4>Commom Amenities</h4>
-
         <Stack direction="row" spacing={1} sx={{display:"flex"}}>
             {
                 data.map((amenity)=>{
@@ -40,9 +40,7 @@ const CommonAminities = () => {
                   
             })
             }
-
         </Stack>
-
     </div>
     </>
   )
