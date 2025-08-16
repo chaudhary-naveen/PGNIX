@@ -85,7 +85,7 @@ const TopView = ({data}) => {
                   </tr>
                   <tr>
                     <td style={cellStyle}>Property Type</td>
-                    <td style={cellStyle}>{data?.typesOfRoom}</td>
+                    <td style={cellStyle}>{data?.tenetType}</td>
                   </tr>
                   <tr>
                     <td style={cellStyle}>Description</td>
@@ -94,7 +94,7 @@ const TopView = ({data}) => {
                   <tr>
                     <td style={cellStyle}>Address</td>
                     <td style={cellStyle}>
-                      {`${data?.location}`}
+                      {`${data?.location} ${data?.city}`}
                     </td>
                   </tr>
                   <tr>

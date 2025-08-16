@@ -153,7 +153,7 @@ function Header() {
             // Ensure it's a string before processing
             const label =
               typeof amenity === "string" && amenity.length > 0
-                ? amenity.charAt(0).toUpperCase() + amenity.slice(1).toLowerCase()
+                ? amenity.toUpperCase()
                 : "";
 
             const handleDelete = () => {
@@ -187,20 +187,21 @@ function Header() {
 // PG Card Component
 function PGCard({ pg }) {
   const navigate = useNavigate();
+  console.log(pg);
   return (
     <div className="flex bg-[#1B263B] rounded-2xl shadow p-4 border border-[#415A77] hover:shadow-lg transition items-center space-x-6">
       <img
-        src={pg.image}
-        alt={pg.name}
+        src={pg.images?.length > 0 ? pg.images[0] : ""}
+        alt={pg.propertyName}
         className="w-36 h-28 object-cover rounded-md flex-shrink-0"
       />
       <div className="flex-1">
         <h2 className="text-l font-semibold text-[#E0E1DD]">{pg.propertyName}</h2>
-        <p className="text-[#AEB6BF]">{pg.location}</p>
-        <p className="text-[#AEB6BF]">Rent: ₹{pg.rent}</p>
-        <p className="text-[#AEB6BF]">Security: ₹{pg.security_money}</p>
+        <p className="text-[#AEB6BF] cd">{pg.location}</p>
+        <p className="text-[#AEB6BF]">Rent: ₹ {pg.triple_rent} - {pg.single_rent}</p>
+        <p className="text-[#AEB6BF]">Security: ₹ {pg.triple_room_security} - {pg.single_room_security}</p>
         <p className="text-[#AEB6BF]">Furnishing: {pg.isFurnished ? "Full Furnishing" : "No Furnishing"}</p>
-        <p className="font-semibold text-[#AEB6BF]">{pg.co_ed ? "Co - Living" : "Single Type"}</p>
+        <p className="font-semibold text-[#AEB6BF]">{pg.tenetType}</p>
       </div>
       <button
         className="px-4 py-2 rounded-xl text-[#0D1B2A] bg-[#E0E1DD] hover:bg-[#C6C7C4] transition-colors"
@@ -215,7 +216,6 @@ function PGCard({ pg }) {
 // PG List Component
 function PGList() {
   const [pgData, setPgData] = useState([]);
-
   const fetchPgs = async () => {
     try {
       const response_from_server = await axios.get(`${path}/api/v1/pg/filter`);

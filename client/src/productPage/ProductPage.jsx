@@ -88,7 +88,7 @@ const ProductPage = () => {
         </Typography>
 
         <Box sx={{ padding: '40px' }}>
-          <CommonAminities />
+          <CommonAminities data={data?.common_amenities}/>
         </Box>
 
         <Divider
@@ -112,7 +112,7 @@ const ProductPage = () => {
           Book PG Rooms or Schedule a Visit
         </Typography>
         <Box>
-          <RoomsDetails />
+          <RoomsDetails data={data}/>
         </Box>
       </Box>
     </>

@@ -20,53 +20,43 @@ const propertySchema = mongoose.Schema(
       enum: ["Active", "Inactive"], // frontend ke according "Active"/"Inactive"
       default: "Inactive",
     },
-    rent: {
-      type: Number,
-      required: true,
-    },
-    isCoed: {
-      type: Boolean,
-      required: true,
-    },
-    totalRooms: {
-      type: Number,
-      default: 0,
-    },
-    acRooms: {
-      type: Number,
-      default: 0,
-      validate: {
-        validator: function (value) {
-          return value <= this.totalRooms;
-        },
-        message: "AC rooms must be less than or equal to total rooms",
-      },
+    tenetType : {
+      type: String,
     },
     isFurnished: {
-      type: Boolean,
-      default: false,
+      type: String
     },
     city: {
       type: String,
     },
-    securityMoney: {
-      type: Number,
-      validate: {
-        validator: function (value) {
-          return value <= this.rent;
-        },
-        message: "Security money cannot exceed rent",
-      },
-    },
     description: {
       type: String,
     },
-
-    //yha images ko add kr diya hi
     images: {
       type: [String], // image URLs from multer/cloudinary
       default: [],
     },
+    
+    common_amenities : [String],
+
+    single_rent : String,
+    single_total_rooms : Number,
+    single_vacant_rooms : Number,
+    single_room_security : Number,
+    single_amenities : [String],
+
+    double_rent : String,
+    double_total_rooms : Number,
+    double_vacant_rooms : Number,
+    double_room_security : Number,
+    double_amenities : [String],
+
+    triple_rent : String,
+    triple_total_rooms : Number,
+    triple_vacant_rooms : Number,
+    triple_room_security : Number,
+    triple_amenities : [String],
+
   },
   { timestamps: true }
 );

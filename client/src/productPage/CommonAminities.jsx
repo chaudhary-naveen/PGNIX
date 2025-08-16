@@ -1,40 +1,36 @@
 import Card from '@mui/material/Card';
 import React from 'react';
-import LocalLaundryServiceIcon from '@mui/icons-material/LocalLaundryService';
-import WifiIcon from '@mui/icons-material/Wifi';
-import SoapIcon from '@mui/icons-material/Soap';
-import OutdoorGrillIcon from '@mui/icons-material/OutdoorGrill';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 
-const data = [
-  { name: 'Laundry', icon: <LocalLaundryServiceIcon sx={{ color: 'black' }} /> },
-  { name: 'Wi-Fi', icon: <WifiIcon sx={{ color: 'black' }} /> },
-  { name: 'Cleaning', icon: <SoapIcon sx={{ color: 'black' }} /> },
-  { name: 'Cooking', icon: <OutdoorGrillIcon sx={{ color: 'black' }} /> },
-];
-
-const CommonAminities = () => {
+const CommonAminities = ({ data }) => {
   const theme = useTheme();
 
   return (
     <Card
       sx={{
-        borderRadius: '10px',
+        borderRadius: '14px',
         padding: '20px',
-        backgroundColor: theme.palette.background.paper,
-        color: theme.palette.secondary.main,
-        boxShadow: 2,
+        border:"1px solid white",
+        background: `linear-gradient(145deg, ${theme.palette.background.paper}, ${theme.palette.background.default})`,
+        boxShadow: '0 4px 14px rgba(0,0,0,0.08)',
+        transition: 'all 0.2s ease',
+        '&:hover': {
+          boxShadow: '0 6px 20px rgba(0,0,0,0.12)',
+          transform: 'translateY(-2px)',
+        },
       }}
+      elevation={0}
     >
       {/* Heading */}
       <Typography
         variant="h6"
         sx={{
-          fontWeight: 600,
+          fontWeight: 700,
           mb: 2,
+          color: theme.palette.text.primary,
           fontFamily: theme.typography.fontFamily,
         }}
       >
@@ -43,18 +39,20 @@ const CommonAminities = () => {
 
       {/* Amenities list */}
       <Stack direction="row" spacing={1} flexWrap="wrap">
-        {data.map((amenity) => (
+        {data?.map((amenity) => (
           <Chip
-            key={amenity.name}
-            label={amenity.name}
-            icon={amenity.icon}
+            key={amenity}
+            label={amenity}
+            variant="outlined"
             sx={{
-              color: 'black',
-              backgroundColor: theme.palette.primary.main,
+              backgroundColor: '#f8f9fa',
               fontWeight: 500,
-              '&:hover': {
-                backgroundColor: '#32465C', // slightly darker primary
-              },
+              fontSize: '0.8rem',
+              borderRadius: '8px',
+              color:"#0D1B2A",
+              borderColor: '#e0e0e0',
+              // color: theme.palette.text.primary,
+              '&:hover': { backgroundColor: '#eceff1' },
             }}
           />
         ))}
