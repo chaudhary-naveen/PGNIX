@@ -3,15 +3,17 @@ const router = express.Router();
 const {
   AddPg,
   editPg,
-  getAllPg,
+  getAllPersonalPg,
   getGivenPg,
   removePg,
   filterPg,
+  getAllPg,
 } = require("../controllers/Pg.controller");
 const isOwner = require("../middleware/isOwner.middleware");
 const { auth } = require("../middleware/auth.js");
 const { upload } = require("../middleware/multer.middleware");
 
+router.get("/seeall", getAllPg);
 // ******************Private Routes (owner)*************************
 
 //add new pg
@@ -32,18 +34,21 @@ router.patch("/edit/:id", auth, editPg);
 //see all personal pg
 // get
 // api / v1 / owner / pg / all/;
-router.get("/all", auth, getAllPg);
+router.get("/all", auth, getAllPersonalPg);
 
 // delete given pg
 // delete
 // api/v1/owner/pg/delete/:id
-router.delete("/delete/:id", auth, isOwner, removePg);
+router.delete("/delete/:id", auth, removePg);
 
 // ***************************Public Routes*********************8
 //see particuar pg
 //Get
 //api/v1/owner/pg/:id
 router.get("/:id", getGivenPg);
+
+// see all pg
+//api/v1/owner/pg/seeall
 
 // filter pg
 // Get

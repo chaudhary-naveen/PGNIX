@@ -299,7 +299,7 @@ const editPg = async (req, res) => {
 };
 
 // get all personal pg
-const getAllPg = async (req, res) => {
+const getAllPersonalPg = async (req, res) => {
   try {
     const owner_id = req.user._id;
     //jo bhi owner login hi usi ki sari property auengi ddosro ki property nhi dekh sakega
@@ -430,4 +430,33 @@ const filterPg = async (req, res) => {
   }
 };
 
-module.exports = { AddPg, editPg, getAllPg, getGivenPg, removePg, filterPg };
+// Get all properties
+const getAllPg = async (req, res) => {
+  try {
+    // Fetch all properties
+    const properties = await Property.find()
+      .populate("owner", "firstname lastname email phone") // owner info bhi hi
+      .sort({ createdAt: -1 }); // latest first
+
+    return res.status(200).json({
+      message: "All properties fetched successfully",
+      count: properties.length,
+      properties,
+    });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ message: "Server error", error: error.message });
+  }
+};
+
+module.exports = {
+  AddPg,
+  editPg,
+  getAllPersonalPg,
+  getGivenPg,
+  removePg,
+  filterPg,
+  getAllPg,
+};
