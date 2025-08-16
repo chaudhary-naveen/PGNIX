@@ -7,8 +7,8 @@ const createToken = (user) => {
 const auth = (req, res, next) => {
   try {
     const head = req.headers;
-    const token = head["authorization"]?.split(" ")[1];
-
+    const token = req.cookies.token || head["authorization"]?.split(" ")[1];
+    console.log(token);
     jwt.verify(token, process.env.JWT, (err, decoded_data) => {
       if (err) {
         console.log("invalid token");

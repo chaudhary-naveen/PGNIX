@@ -22,17 +22,17 @@ const { upload } = require("../middleware/multer.middleware");
 //frontend de images field naam se hi bhejna
 
 // upload krne se phile check kr le ki login hi then owner hi hai ya user to nhi
-router.post("/add", auth, isOwner, upload.array("images", 5), AddPg);
+router.post("/add", auth, upload.array("images", 5), AddPg);
 
 //Edit pg
 //put
 // api/v1/owner/pg/edit
-router.put("/edit", auth, isOwner, editPg);
+router.patch("/edit/:id", auth, editPg);
 
 //see all personal pg
 // get
 // api / v1 / owner / pg / all/;
-router.get("/all", auth, isOwner, getAllPg);
+router.get("/all", auth, getAllPg);
 
 // delete given pg
 // delete

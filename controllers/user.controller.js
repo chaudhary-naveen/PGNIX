@@ -2,6 +2,7 @@ const User = require("../Models/User");
 const OTP = require("../Models/OTP");
 const bcrypt = require("bcrypt");
 const { generateOtp, sendByEmail } = require("./otp.controller");
+const jwt = require("jsonwebtoken");
 
 const checkIfOwnerExist = async (req, res) => {
   const { email } = req.query;
@@ -33,34 +34,44 @@ const createUser = async (req, res) => {
     const { email, otp, password, firstname, gender, lastname, dob, phone } =
       req.body;
 
-    const otpresponse = await OTP.findOne({ email });
-
-    if (!otpresponse) {
-      return res.status(404).json({ success: false, msg: "OTP not found" });
-    }
-
-    if (otpresponse.otp == otp) {
-      const salt = await bcrypt.genSalt(10);
-      const hashPassword = await bcrypt.hash(password, salt);
-
-      let user = await User.create({
-        email,
-        password: hashPassword,
-        firstname,
-        lastname,
-        dob,
-        gender,
-        phone,
+    const preUser = await User.findOne({ email });
+    if (preUser) {
+      return res.status(400).json({
+        status: true,
+        message: "user already exist",
       });
-
-      user = user.toObject();
-      delete user.password;
-      return res
-        .status(200)
-        .json({ success: true, msg: "User created successfully", user });
-    } else {
-      return res.status(400).json({ success: false, msg: "Invalid OTP" });
     }
+
+    // const otpresponse = await OTP.findOne({ email });
+
+    // if (!otpresponse) {
+    //   return res.status(404).json({ success: false, msg: "OTP not found" });
+    // }
+
+    // if (otpresponse.otp != otp) {
+    //   return res.status(400).json({ success: false, msg: "Invalid OTP" });
+    // } else {
+    // no need password automaticaay hash ho jayega chnage hone pr
+
+    // const salt = await bcrypt.genSalt(10);
+    // const hashPassword = await bcrypt.hash(password, salt);
+
+    let user = await User.create({
+      email,
+      password,
+      firstname,
+      lastname,
+      dob,
+      gender,
+      phone,
+    });
+
+    user = user.toObject();
+    delete user.password;
+    return res
+      .status(200)
+      .json({ success: true, msg: "User created successfully", user });
+    // }
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Internal Server Error" });
@@ -86,10 +97,18 @@ const loginUser = async (req, res) => {
       });
     }
     // check password
+    console.log(preUser.password);
+    console.log("/n");
+    console.log(password);
 
-    const isPasswordCorrect = await User.isPasswordCorrect(password);
+    // const isPasswordCorrect = await User.isPasswordCorrect(password);
+    const isPasswordCorrect = await bcrypt.compare(password, preUser.password);
+    console.log(isPasswordCorrect);
     if (!isPasswordCorrect) {
-      throw new ApiError(400, "Password is not correct");
+      return res.status(400).json({
+        status: false,
+        message: "password is incorrect",
+      });
     }
 
     //user object create bina password ke
@@ -119,38 +138,37 @@ const loginUser = async (req, res) => {
     console.error("Login Error:", error);
     return res.status(500).json({ message: "Internal Server Error" });
   }
-  // const { email, password } = req.body;
-  // if (!email || !password) {
-  //   return res.status(400).json({ message: "Email and password are required" });
-  // }
-  // try {
-  //   const user = await User.findOne({ email: email });
-  //   if (!user) {
-  //     return res.status(404).json({ message: "User not found" });
-  //   }
-  //   const isMatch = await bcrypt.compare(password, user.password);
-  //   if (!isMatch) {
-  //     return res.status(400).json({ message: "Invalid password" });
-  //   }
-  //   const userData = user.toObject();
-  //   delete userData.password;
-  //   return res
-  //     .status(200)
-  //     .json({
-  //       message: "Login successful",
-  //       token,
-  //       user: userData,
-  //       success: true,
-  //     });
-  // } catch (err) {
-  //   console.error(err);
-  //   return res.status(500).json({ message: "Internal Server Error" });
-  // }
+};
+
+const getUserDetails = async (req, res) => {
+  try {
+    console.log(req.user);
+    const userId = req.user._id;
+    const preUser = await User.findById({ _id: userId }).select("-password");
+    if (!preUser) {
+      return res.status(401).json({
+        status: false,
+        message: "user not exist",
+      });
+    }
+    return res.status(200).json({
+      status: true,
+      message: "user get successful",
+      user: preUser,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      status: false,
+      message: "user fetch failed",
+    });
+  }
 };
 
 module.exports = {
   checkIfOwnerExist,
   createUser,
   loginUser,
+  getUserDetails,
   // other exports can go here
 };

@@ -20,11 +20,11 @@ const propertySchema = mongoose.Schema(
       enum: ["Active", "Inactive"], // frontend ke according "Active"/"Inactive"
       default: "Inactive",
     },
-    tenetType : {
+    tenetType: {
       type: String,
     },
     isFurnished: {
-      type: String
+      type: String,
     },
     city: {
       type: String,
@@ -36,27 +36,26 @@ const propertySchema = mongoose.Schema(
       type: [String], // image URLs from multer/cloudinary
       default: [],
     },
-    
-    common_amenities : [String],
 
-    single_rent : String,
-    single_total_rooms : Number,
-    single_vacant_rooms : Number,
-    single_room_security : Number,
-    single_amenities : [String],
+    common_amenities: [String],
 
-    double_rent : String,
-    double_total_rooms : Number,
-    double_vacant_rooms : Number,
-    double_room_security : Number,
-    double_amenities : [String],
+    single_rent: String,
+    single_total_rooms: Number,
+    single_vacant_rooms: Number,
+    single_room_security: Number,
+    single_amenities: [String],
 
-    triple_rent : String,
-    triple_total_rooms : Number,
-    triple_vacant_rooms : Number,
-    triple_room_security : Number,
-    triple_amenities : [String],
+    double_rent: String,
+    double_total_rooms: Number,
+    double_vacant_rooms: Number,
+    double_room_security: Number,
+    double_amenities: [String],
 
+    triple_rent: String,
+    triple_total_rooms: Number,
+    triple_vacant_rooms: Number,
+    triple_room_security: Number,
+    triple_amenities: [String],
   },
   { timestamps: true }
 );
