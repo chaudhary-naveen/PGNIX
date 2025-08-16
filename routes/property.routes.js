@@ -43,11 +43,11 @@ router.delete("/delete/:id", auth, isOwner, removePg);
 //see particuar pg
 //Get
 //api/v1/owner/pg/:id
-router.get("/:id", auth, getGivenPg);
+router.get("/:id", getGivenPg);
 
 // filter pg
 // Get
-router.get("/search/pg",auth filterPg);
+router.get("/search/pg", filterPg);
 
 // ####rest according to need add krenge apn log############
 
