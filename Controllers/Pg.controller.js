@@ -15,6 +15,7 @@ const AddPg = async (req, res) => {
       isFurnished,
       description,
       typesOfRoom,
+      city
     } = req.body;
 
     //get owner id
@@ -50,6 +51,7 @@ const AddPg = async (req, res) => {
       description,
       owner: owner_id,
       typesOfRoom,
+      city
     });
 
     const savedProperty = await newProperty.save();

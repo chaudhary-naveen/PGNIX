@@ -46,6 +46,9 @@ const propertySchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    city: {
+      type: String,
+    },
     security_money: {
       type: Number,
       validate: {
