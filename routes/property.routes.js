@@ -8,6 +8,8 @@ const {
   removePg,
   filterPg,
 } = require("../controllers/Pg.controller");
+const isOwner = require("../middleware/isOwner.middleware");
+const { auth } = require("../middleware/auth.middleware.js");
 const { upload } = require("../middleware/multer.middleware");
 
 // ******************Private Routes (owner)*************************
@@ -18,32 +20,34 @@ const { upload } = require("../middleware/multer.middleware");
 
 //only 5 photos will be added at a time
 //frontend de images field naam se hi bhejna
-router.post("/add", upload.array("images", 5), AddPg);
+
+// upload krne se phile check kr le ki login hi then owner hi hai ya user to nhi
+router.post("/add", auth, isOwner, upload.array("images", 5), AddPg);
 
 //Edit pg
 //put
 // api/v1/owner/pg/edit
-router.put("/edit", editPg);
+router.put("/edit", auth, isOwner, editPg);
 
 //see all personal pg
 // get
 // api / v1 / owner / pg / all/;
-router.get("/all", getAllPg);
+router.get("/all", auth, isOwner, getAllPg);
 
 // delete given pg
 // delete
 // api/v1/owner/pg/delete/:id
-router.delete("/delete/:id", removePg);
+router.delete("/delete/:id", auth, isOwner, removePg);
 
 // ***************************Public Routes*********************8
 //see particuar pg
 //Get
 //api/v1/owner/pg/:id
-router.get("/:id", getGivenPg);
+router.get("/:id", auth, getGivenPg);
 
 // filter pg
 // Get
-router.get("/search/pg", filterPg);
+router.get("/search/pg",auth filterPg);
 
 // ####rest according to need add krenge apn log############
 
