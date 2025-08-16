@@ -22,7 +22,8 @@ const aboutData = [
   }
 ]
 
-const TopView = () => {
+const TopView = ({data}) => {
+  console.log(data);
   return (
     <div className='container'>
       <div className="row" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
@@ -67,28 +68,32 @@ const TopView = () => {
                 <tbody>
                   <tr>
                     <td style={cellStyle}>PG Name</td>
-                    <td style={cellStyle}>{aboutData[0].Pg_name}</td>
+                    <td style={cellStyle}>{data?.propertyName}</td>
                   </tr>
                   <tr>
                     <td style={cellStyle}>PG Owner</td>
-                    <td style={cellStyle}>{aboutData[0].Pg_owner}</td>
+                    <td style={cellStyle}>{data?.owner?.firstname} {data?.owner?.lastname}</td>
                   </tr>
                   <tr>
                     <td style={cellStyle}>Contact Number</td>
-                    <td style={cellStyle}>{aboutData[0].owner_contact_number}</td>
+                    <td style={cellStyle}>{data?.owner?.phone}</td>
+                  </tr>
+                  <tr>
+                    <td style={cellStyle}>Contact Number</td>
+                    <td style={cellStyle}>{data?.owner?.email}</td>
                   </tr>
                   <tr>
                     <td style={cellStyle}>Property Type</td>
-                    <td style={cellStyle}>{aboutData[0].type}</td>
+                    <td style={cellStyle}>{data?.typesOfRoom}</td>
                   </tr>
                   <tr>
                     <td style={cellStyle}>Description</td>
-                    <td style={cellStyle}>{aboutData[0].Pg_description}</td>
+                    <td style={cellStyle}>{data?.description}</td>
                   </tr>
                   <tr>
                     <td style={cellStyle}>Address</td>
                     <td style={cellStyle}>
-                      {`${aboutData[0].location.local_address}, ${aboutData[0].location.city}, ${aboutData[0].location.state}`}
+                      {`${data?.location}`}
                     </td>
                   </tr>
                   <tr>

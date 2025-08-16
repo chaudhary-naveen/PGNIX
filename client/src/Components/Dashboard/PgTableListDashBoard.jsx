@@ -12,11 +12,7 @@ import {
   TableSortLabel,
   Toolbar,
   Typography,
-  IconButton,
-  Tooltip,
 } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
 
 function createData(id, name, location, status) {
@@ -55,14 +51,18 @@ function EnhancedTableHead({ order, orderBy, onRequestSort }) {
             sortDirection={orderBy === headCell.id ? order : false}
             sx={{
               fontWeight: "bold",
-              borderBottom: "1px solid black",
-              color: "black",
+              color: "#E0E1DD",
+              borderBottom: "1px solid #415A77",
             }}
           >
             <TableSortLabel
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : "asc"}
               onClick={createSortHandler(headCell.id)}
+              sx={{
+                color: "#E0E1DD",
+                "& .MuiTableSortLabel-icon": { color: "#E0E1DD !important" },
+              }}
             >
               {headCell.label}
               {orderBy === headCell.id && (
@@ -78,7 +78,7 @@ function EnhancedTableHead({ order, orderBy, onRequestSort }) {
   );
 }
 
-function EnhancedTableToolbar({}) {
+function EnhancedTableToolbar() {
   return (
     <Toolbar sx={{ pl: 2, pr: 1 }}>
       <Typography
@@ -86,14 +86,13 @@ function EnhancedTableToolbar({}) {
           flex: "1 1 100%",
           fontSize: "1.5rem",
           fontWeight: 700,
-          color: "black",
+          color: "#ffffffff",
         }}
         variant="h6"
         component="div"
       >
         PG Property List
       </Typography>
-      {/* <Tooltip title="Filter list"><IconButton><FilterListIcon /></IconButton></Tooltip> */}
     </Toolbar>
   );
 }
@@ -108,13 +107,12 @@ export default function PgTableListDashBoard({
   const [page, setPage] = useState(0);
   const [rows, setRows] = useState([]);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  // const [open, setOpen] = React.useState(false);
 
   useEffect(() => {
-    const data = dashboardData[0].properties.map((obj, index) =>
+    const data = dashboardData[0]?.properties.map((obj, index) =>
       createData(index + 1, obj.propertyName, obj.location, obj.status)
     );
-    setRows(data);
+    setRows(data || []);
   }, [dashboardData]);
 
   const handleRequestSort = (event, property) => {
@@ -141,19 +139,20 @@ export default function PgTableListDashBoard({
     <Box sx={{ width: "100%" }}>
       <Paper
         sx={{
-          backgroundColor: "#000000ff",
-          color: "black",
+          backgroundColor: "#0D1B2A",
+          color: "#E0E1DD",
           width: "100%",
           mb: 2,
           overflow: "hidden",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: "20px",
+          gap: 2,
+          p: 2,
         }}
       >
         <EnhancedTableToolbar />
-        <TableContainer sx={{ width: "70%", color: "black" }}>
+        <TableContainer sx={{ width: "90%", color: "#E0E1DD" }}>
           <Table>
             <EnhancedTableHead
               order={order}
@@ -167,16 +166,10 @@ export default function PgTableListDashBoard({
                   tabIndex={1}
                   key={row.id}
                   sx={{
-                    color: "black",
-                    borderBottom: "none", // Remove row separator
                     "&:hover": {
-                      backgroundColor: "black", // Set background color to black on hover
-                      color: "black", // Change text color to white on hover
-                      "& .MuiTableCell-root": {
-                        cursor: "pointer",
-                        color: "white", // Ensure cell text is white on hover
-                        backgroundColor: "#0D1B2A",
-                      },
+                      backgroundColor: "#1B263B",
+                      cursor: "pointer",
+                      "& .MuiTableCell-root": { color: "#415A77" },
                     },
                   }}
                   onClick={() => {
@@ -184,26 +177,26 @@ export default function PgTableListDashBoard({
                     setSelectPg(row.id);
                   }}
                 >
-                  <TableCell align="center" sx={{ color: "black" }}>
+                  <TableCell align="center" sx={{ color: "#E0E1DD" }}>
                     {row.name}
                   </TableCell>
-                  <TableCell align="center" sx={{ color: "black" }}>
+                  <TableCell align="center" sx={{ color: "#E0E1DD" }}>
                     {row.location}
                   </TableCell>
-                  {row.status == "Active" ? (
-                    <TableCell align="center" style={{ color: "green" }}>
-                      {row.status}
-                    </TableCell>
-                  ) : (
-                    <TableCell align="center" style={{ color: "red" }}>
-                      {row.status}
-                    </TableCell>
-                  )}
+                  <TableCell
+                    align="center"
+                    sx={{
+                      color: row.status === "Active" ? "green" : "red",
+                      fontWeight: 600,
+                    }}
+                  >
+                    {row.status}
+                  </TableCell>
                 </TableRow>
               ))}
               {visibleRows.length === 0 && (
                 <TableRow>
-                  <TableCell colSpan={3} align="center">
+                  <TableCell colSpan={3} align="center" sx={{ color: "#E0E1DD" }}>
                     No Properties Found
                   </TableCell>
                 </TableRow>
@@ -219,6 +212,14 @@ export default function PgTableListDashBoard({
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
+          sx={{
+            "& .MuiTablePagination-actions button": {
+              color: "#E0E1DD",
+            },
+            "& .MuiTablePagination-selectLabel, & .MuiTablePagination-displayedRows": {
+              color: "#E0E1DD",
+            },
+          }}
         />
       </Paper>
     </Box>

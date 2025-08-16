@@ -19,10 +19,6 @@ import path from "./path";
 
 function App() {
   
-  useEffect(() => { 
-    axios.get(`${path}/api/active`)
-  },[]);
-
   return (
     <>
       <Navbar></Navbar>

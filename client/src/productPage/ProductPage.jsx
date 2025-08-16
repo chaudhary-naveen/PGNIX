@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect , useState} from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import TopView from './TopView';
@@ -6,19 +6,20 @@ import RoomsDetails from './RoomsDeatails';
 import CommonAminities from './CommonAminities';
 import { useTheme } from '@mui/material/styles';
 import Divider from '@mui/material/Divider';
-import { useSearchParams } from 'react-router';
 import axios from 'axios';
+import path from './../path';
+import { useSearchParams } from 'react-router-dom';
 
 const ProductPage = () => {
-  const theme = useTheme();
-  const {searchParams} = useSearchParams();
-  const [data,setData] = useState({});
-
+  const [searchParams] = useSearchParams(); 
   const property_id = searchParams.get('id');
+  
+  const [data,setData] = useState({});
+  const theme = useTheme();
 
   const getPropertyData = async ()=>{
     try{
-      const response = await axios.get(`${path}/api/v1/pg/${property_id}`);
+      const response = await axios.get(`${path}/api/v1/owner/pg/${property_id}`);
       if(response.status == 200){
           setData(response.data.property)
       }
@@ -27,9 +28,13 @@ const ProductPage = () => {
     }
   };
 
+  // useEffect(()=>{
+  //   console.log(data);
+  // },[data]);
+
   useEffect(()=>{
     getPropertyData();
-  },[id]);
+  },[property_id]);
   
   return (
     <>
@@ -50,9 +55,9 @@ const ProductPage = () => {
             mb: 4,
           }}
         >
-          {data ? data.propertyName : "Loading..."};
+          {data ? data.propertyName : "Loading..."}
         </Typography>
-        <TopView />
+        <TopView data={data} />
       </Box>
 
       {/* Details Section */}

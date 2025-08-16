@@ -17,7 +17,6 @@ const reducer = combineReducers({
     user: userReducer
 });
  
-
 // Setup
 const persistedReducer = persistReducer(persistConfig,reducer); 
 const appStore = configureStore({

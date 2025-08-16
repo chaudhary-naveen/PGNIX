@@ -4,6 +4,7 @@ import MainContent from "./MainContent";
 import { useState } from "react";
 import ParticularPgPage from "./ParticularPg/ParticularPgPage";
 import { Box } from "@mui/material";
+import { useSelector } from "react-redux";
 
 const dashboardData = [
   {
@@ -184,11 +185,12 @@ const dashboardData = [
 
 const Dashboard = ()=>{
     const [open,setOpen] = useState(false)
+    const ownerData = useSelector(state => state.user.user);
     const [selectPg,setSelectPg] = useState("")
     
     return <div className="container ">
       {/* Dashboard Top Name section */}
-      <OwnerNameSection ownerName = {dashboardData[0].ownerName}/>
+      <OwnerNameSection ownerName = {ownerData?.firstname}/>
       {
         <Box>
                 {

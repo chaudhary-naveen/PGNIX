@@ -1,5 +1,5 @@
 const User = require("../Models/User");
-const Property = require("../models/Properties");
+const Property = require("./../Models/Properties");
 
 // add pg
 const AddPg = async (req, res) => {

@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect,useState } from "react";
 import { useNavigate } from "react-router-dom";
 import path from './../path';
+import PropertyCardSkeleton from "./PropertyCardSkeleton";
 
 // Header Component
 function Header() {
@@ -41,7 +42,7 @@ function PGCard({ pg }){
         <p className="text-[#AEB6BF]">{pg.location}</p>
         <p className="text-[#AEB6BF]">Rent: ₹{pg.rent}</p>
         <p className="text-[#AEB6BF]">Security: ₹{pg.security_money}</p>
-        <p className="text-[#AEB6BF]">Security: ₹{pg.security_money}</p>
+        {/* <p className="text-[#AEB6BF]">Security: ₹{pg.security_money}</p> */}
         <p className="text-[#AEB6BF]">Furnishing: {pg.isFurnished ? "Full Furnishing" : "No Furnishing"}</p>
         <p className={`font-semibold text-[#AEB6BF]`}>
           {pg.co_ed ? "Co - Living" : "Single Type"}
@@ -72,14 +73,27 @@ function PGList() {
     }
   }
   useEffect(()=>{
-    fetchPgs();
+    setTimeout(() => {
+      fetchPgs();
+    }, 1000);
   },[]);
 
   return (
    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 bg-[#0D1B2A]">
-      {pgData.map((pg) => (
+      {pgData.length > 0 ?  pgData.map((pg) => (
         <PGCard key={pg.id} pg={pg} />
-      ))}
+      ))  : <>
+      <PropertyCardSkeleton />
+      <PropertyCardSkeleton />
+      <PropertyCardSkeleton />
+      <PropertyCardSkeleton />
+      <PropertyCardSkeleton />
+      <PropertyCardSkeleton />
+      <PropertyCardSkeleton />
+      <PropertyCardSkeleton />
+
+      </>
+      }
     </div>
   );
 }
