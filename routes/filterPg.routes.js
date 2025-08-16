@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { filterPg } = require("../controllers/Pg.controller");
 
-router.get("/", filterPg);
+router.get("/", auth, filterPg);
 
 // exapleGET /api/pg/filter?location=delhi
 // GET /api/pg/filter?propertyName="ashu"%20house
