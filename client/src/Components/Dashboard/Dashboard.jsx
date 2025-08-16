@@ -8,9 +8,10 @@ import { useSelector } from "react-redux";
 
 const dashboardData = [
   {
-    ownerName: "Ashu", 
+    ownerName: "Ashu",
     properties: [
-      { id:"1",
+      {
+        id: "1",
         propertyName: "Ashu PG Residency",
         location: "Delhi",
         status: "Active",
@@ -27,7 +28,7 @@ const dashboardData = [
         securityMoney: 5000
       },
       {
-        id:"2",
+        id: "2",
         propertyName: "Sunrise Stay",
         location: "Bangalore",
         status: "Active",
@@ -44,7 +45,7 @@ const dashboardData = [
         securityMoney: 6000
       },
       {
-        id:"3",
+        id: "3",
         propertyName: "Maple Heights",
         location: "Pune",
         status: "Inactive",
@@ -61,7 +62,7 @@ const dashboardData = [
         securityMoney: 3000
       },
       {
-        id:"4",
+        id: "4",
         propertyName: "Urban Nest",
         location: "Hyderabad",
         status: "Active",
@@ -78,7 +79,7 @@ const dashboardData = [
         securityMoney: 7000
       },
       {
-        id:"5",
+        id: "5",
         propertyName: "Comfort Inn PG",
         location: "Noida",
         status: "Active",
@@ -95,7 +96,7 @@ const dashboardData = [
         securityMoney: 4000
       },
       {
-        id:"6",
+        id: "6",
         propertyName: "Blue Sky Hostel",
         location: "Chandigarh",
         status: "Inactive",
@@ -112,7 +113,7 @@ const dashboardData = [
         securityMoney: 3500
       },
       {
-        id:"7",
+        id: "7",
         propertyName: "Happy Stay",
         location: "Gurgaon",
         status: "Active",
@@ -129,7 +130,7 @@ const dashboardData = [
         securityMoney: 8000
       },
       {
-        id:"8",
+        id: "8",
         propertyName: "Elite PG Homes",
         location: "Ahmedabad",
         status: "Active",
@@ -146,7 +147,7 @@ const dashboardData = [
         securityMoney: 5000
       },
       {
-        id:"9",
+        id: "9",
         propertyName: "Green View PG",
         location: "Kolkata",
         status: "Inactive",
@@ -163,7 +164,7 @@ const dashboardData = [
         securityMoney: 4000
       },
       {
-        id:"10",
+        id: "10",
         propertyName: "Metro Living",
         location: "Mumbai",
         status: "Active",
@@ -183,23 +184,23 @@ const dashboardData = [
   }
 ];
 
-const Dashboard = ()=>{
-    const [open,setOpen] = useState(false)
-    const ownerData = useSelector(state => state.user.user);
-    const [selectPg,setSelectPg] = useState("")
-    
-    return <div className="container ">
-      {/* Dashboard Top Name section */}
-      <OwnerNameSection ownerName = {ownerData?.firstname}/>
-      {
-        <Box>
-                {
-                    open ? <ParticularPgPage  dashboardData={dashboardData} selectPg={selectPg} setOpen={setOpen} open={open}/>:null
-                }
-            </Box>
-      }
-      <MainContent dashboardData = {dashboardData } setSelectPg={setSelectPg} setOpen={setOpen}/>
-    </div>
+const Dashboard = () => {
+  const [open, setOpen] = useState(false)
+  const ownerData = useSelector(state => state.user.user);
+  const [selectPg, setSelectPg] = useState("")
+
+  return <div className="container ">
+    {/* Dashboard Top Name section */}
+    <OwnerNameSection ownerName={ownerData?.firstname} />
+    {
+      <Box>
+        {
+          open ? <ParticularPgPage dashboardData={dashboardData} selectPg={selectPg} setOpen={setOpen} open={open} /> : null
+        }
+      </Box>
+    }
+    <MainContent dashboardData={dashboardData} setSelectPg={setSelectPg} setOpen={setOpen} />
+  </div>
 }
 
 export default Dashboard

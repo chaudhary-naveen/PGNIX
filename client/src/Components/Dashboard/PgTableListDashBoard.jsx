@@ -12,6 +12,7 @@ import {
   TableSortLabel,
   Toolbar,
   Typography,
+  Button
 } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
 
@@ -35,6 +36,7 @@ const headCells = [
   { id: "name", label: "Property Name" },
   { id: "location", label: "Location" },
   { id: "status", label: "Status" },
+  { id: "details", label: "Details" }, // new column
 ];
 
 function EnhancedTableHead({ order, orderBy, onRequestSort }) {
@@ -168,13 +170,7 @@ export default function PgTableListDashBoard({
                   sx={{
                     "&:hover": {
                       backgroundColor: "#1B263B",
-                      cursor: "pointer",
-                      "& .MuiTableCell-root": { color: "#415A77" },
                     },
-                  }}
-                  onClick={() => {
-                    setOpen(true);
-                    setSelectPg(row.id);
                   }}
                 >
                   <TableCell align="center" sx={{ color: "#E0E1DD" }}>
@@ -192,16 +188,39 @@ export default function PgTableListDashBoard({
                   >
                     {row.status}
                   </TableCell>
+                  {/* Details Button */}
+                  <TableCell align="center">
+                    <Button
+                      variant="contained"
+                      size="small"
+                      onClick={() => {
+                        setOpen(true);
+                        setSelectPg(row.id);
+                      }}
+                      sx={{
+                        backgroundColor: "#415A77", // primary theme
+                        color: "#E0E1DD",
+                        fontWeight: 600,
+                        borderRadius: "8px",
+                        "&:hover": {
+                          backgroundColor: "#2f4256",
+                        },
+                      }}
+                    >
+                      Details
+                    </Button>
+                  </TableCell>
                 </TableRow>
               ))}
               {visibleRows.length === 0 && (
                 <TableRow>
-                  <TableCell colSpan={3} align="center" sx={{ color: "#E0E1DD" }}>
+                  <TableCell colSpan={4} align="center" sx={{ color: "#E0E1DD" }}>
                     No Properties Found
                   </TableCell>
                 </TableRow>
               )}
             </TableBody>
+
           </Table>
         </TableContainer>
         <TablePagination

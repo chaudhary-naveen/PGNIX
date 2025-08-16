@@ -1,5 +1,6 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 import AddNewPg from "./AddNewPg";
 import React, { useState } from "react";
 
@@ -22,7 +23,7 @@ const OwnerNameSection = ({ ownerName }) => {
         <span
           style={{
             fontSize: "2rem",
-            color: "#E0E1DD", // secondary text color
+            color: "#234472ff", // secondary text color
             fontWeight: 700,
           }}
         >
@@ -31,12 +32,24 @@ const OwnerNameSection = ({ ownerName }) => {
         <span
           style={{
             fontSize: "3rem",
-            color: "#ffffffff", // primary text color
+            color: "#cf2e05ff", // primary text color
             fontWeight: 700,
           }}
         >
           {ownerName}
         </span>
+
+        {/* Headline below name */}
+        <Typography
+          variant="h6"
+          sx={{
+            color: "#000000ff", // secondary text color
+            mt: 1, // margin top
+            fontWeight: 500,
+          }}
+        >
+          Here’s a summary of your all properties
+        </Typography>
       </Box>
 
       {/* Add Property Button */}

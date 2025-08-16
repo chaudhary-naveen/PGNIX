@@ -31,8 +31,7 @@ const MainContent = ({ dashboardData, setSelectPg, setOpen }) => {
                 }}
                 elevation={20}
               >
-                {/* <button type="button" className="btn btn-warning w-[50%]">Warning</button>  
-                        <button type="button" className="btn btn-danger w-[50%]">Danger</button> */}
+              
                 <img
                   src={logo}
                   alt=""
@@ -40,6 +39,7 @@ const MainContent = ({ dashboardData, setSelectPg, setOpen }) => {
                   style={{ mixBlendMode: "multiply" }}
                 />
               </Card>
+              
             </div>
             {/* total Property */}
             <div className="col">
@@ -59,7 +59,7 @@ const MainContent = ({ dashboardData, setSelectPg, setOpen }) => {
                 <p style={{ fontSize: "1.5rem", fontWeight: 700 }}>
                   Total Properties
                 </p>
-                <p style={{ fontSize: "3rem", fontWeight: 700, color: "red" }}>
+                <p style={{ fontSize: "3rem", fontWeight: 700, color: "dark" }}>
                   {dashboardData[0].properties.length}
                 </p>
               </Card>
@@ -74,6 +74,9 @@ const MainContent = ({ dashboardData, setSelectPg, setOpen }) => {
                 }}
                 elevation={20}
               >
+                <p style={{ fontSize: "1.2rem", fontWeight: 700,marginBottom :"0px",color:"black"}}>
+                  Occupancy
+                </p>
                 <StatusChart dashboardData={dashboardData} />
               </Card>
             </div>

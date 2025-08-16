@@ -161,7 +161,7 @@ const Navbar =()=>{
                   <Typography sx={{ textAlign: 'center' }}>Account</Typography>
               </MenuItem>
 
-              <MenuItem  onClick={()=>{localstorage.clear()}}>
+              <MenuItem  onClick={()=>{navigate('/dashboard')}}>
                   <Typography sx={{ textAlign: 'center' }}>Dashboard</Typography>
               </MenuItem>
               <MenuItem onClick={()=>{
