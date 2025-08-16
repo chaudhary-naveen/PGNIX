@@ -49,14 +49,27 @@ const ProductPage = () => {
         <Typography
           variant="h4"
           sx={{
-            color: theme.palette.primary.main,
+            color: "white",
             fontWeight: 600,
             fontFamily: theme.typography.fontFamily,
-            mb: 4,
+            mb: 0,
           }}
         >
           {data ? data.propertyName : "Loading..."}
         </Typography>
+
+        <Typography
+          variant="h7"
+          sx={{
+            color: "white",
+            fontWeight: 200,
+            fontFamily: theme.typography.fontFamily,
+            mb: 5,
+          }}
+        >
+          {data ? data.location : "Loading..."}
+        </Typography>
+
         <TopView data={data} />
       </Box>
 

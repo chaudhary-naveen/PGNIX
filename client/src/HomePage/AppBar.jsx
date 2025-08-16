@@ -17,7 +17,7 @@ const AppBarNav = () => {
   const [rentMax, setRentMax] = useState("");
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: "#0D1B2A", p: 1 }}>
+    <AppBar position="static" sx={{ backgroundColor: "#0D1B2A", p: 1 }} className="rounded">
       <Toolbar sx={{ display: "flex", justifyContent: "space-between", gap: 2, flexWrap: "wrap" }}>
         <Typography variant="h6" sx={{ color: "#E0E1DD", fontWeight: 700 }}>
           PG Finder

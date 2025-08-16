@@ -3,24 +3,73 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import path from "./../path";
 import PropertyCardSkeleton from "./PropertyCardSkeleton";
-import { AppBar, Toolbar, Typography, Box, Select, MenuItem, TextField, FormControl, InputLabel, Button } from "@mui/material";
+import { AppBar, Toolbar, Typography, Box, Select, MenuItem, TextField, FormControl, InputLabel, Button, Autocomplete, Chip } from "@mui/material";
+import cities from './../cities.json'
 
 // Header Component with Search + Filter AppBar
 function Header() {
+  const [city, setCity] = useState("");
   const [livingType, setLivingType] = useState("");
   const [rentLow, setRentLow] = useState("");
   const [rentMax, setRentMax] = useState("");
+  const [amenity, setAmenity] = useState("");
+  const [amenities, setAmenities] = useState([]);
 
   return (
     <header className="flex flex-col items-center justify-between px-5 py-3 bg-[#0D1B2A] text-[#E0E1DD] gap-4">
-      {/* Search Bar */}
+      {/* Search Row with City Select */}
       <div className="flex flex-col sm:flex-row items-center w-full gap-2">
+        {/* City Select */}
+        <Autocomplete
+          options={cities.list}
+          value={city}
+          onChange={(event, newValue) => setCity(newValue)}
+          sx={{
+            width: { xs: "100%", sm: 256 },
+            "& .MuiOutlinedInput-root": {
+              padding: "2px 8px", // matches px-2 py-1
+              color: "#E0E1DD",
+              backgroundColor: "#1B263B",
+              border: "1px solid #d1d5db", // border-gray-300
+              borderRadius: "4px", // matches rounded
+              "& fieldset": { border: "none" }, // remove MUI's default outline
+              "&:hover": { borderColor: "#60a5fa" }, // hover similar to tailwind focus:border-blue-500
+              "&.Mui-focused": { borderColor: "#3b82f6" }, // focus:border-blue-500
+            },
+            "& .MuiSvgIcon-root": { color: "#E0E1DD" },
+            "& .MuiInputLabel-root": { color: "#E0E1DD" },
+            "& .MuiAutocomplete-popupIndicator": { color: "#E0E1DD" },
+            "& .MuiAutocomplete-clearIndicator": { color: "#E0E1DD" },
+            "& .MuiAutocomplete-option": {
+              backgroundColor: "#1B263B",
+              color: "#E0E1DD",
+              "&[aria-selected='true']": { backgroundColor: "#2f4256" },
+              "&:hover": { backgroundColor: "#2f4256" }
+            }
+          }}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              placeholder="Select City..."
+              variant="outlined"
+              InputProps={{
+                ...params.InputProps,
+                sx: { padding: 0 } // remove extra padding from MUI
+              }}
+            />
+          )}
+        />
+
+
+        {/* Search Input */}
         <input
           type="text"
-          placeholder="Search PGs..."
-          className="px-2 py-1 border border-gray-300 rounded text-[#E0E1DD] bg-[#1B263B] focus:outline-none focus:border-blue-500 w-full sm:w-64"
+          placeholder="Locality"
+          className="px-2 py-[9px] border border-gray-300 rounded text-[#E0E1DD] bg-[#1B263B] focus:outline-none focus:border-blue-500 w-full sm:w-64"
         />
-        <button className="px-3 py-1 text-[#1B263B] bg-[#E0E1DD] rounded hover:bg-[#E0E1DF] transition-colors">
+
+        {/* Search Button */}
+        <button className="px-3 py-[9px] text-[#1B263B] bg-[#E0E1DD] rounded hover:bg-[#E0E1DF] transition-colors">
           Search Properties
         </button>
       </div>
@@ -28,44 +77,39 @@ function Header() {
       {/* AppBar Filters */}
       <AppBar position="static" sx={{ backgroundColor: "#0D1B2A", p: 1, width: "100%" }}>
         <Toolbar sx={{ display: "flex", justifyContent: "flex-start", gap: 2, flexWrap: "wrap" }}>
-          {/* Type of Living */}
-          <FormControl sx={{ minWidth: 150 }}>
-            <InputLabel sx={{ color: "#E0E1DD" }}>Type of Living</InputLabel>
-            <Select
-              value={livingType}
-              onChange={(e) => setLivingType(e.target.value)}
-              sx={{
-                color: "#E0E1DD",
-                backgroundColor: "#1B263B",
-                ".MuiSvgIcon-root": { color: "#E0E1DD" },
-              }}
-            >
-              <MenuItem value="Single">Single</MenuItem>
-              <MenuItem value="Double">Double</MenuItem>
-              <MenuItem value="Shared">Shared</MenuItem>
-            </Select>
-          </FormControl>
 
-          {/* Rent Low */}
-          {/* Rent Low */}
+          <TextField
+            label="Amenities"
+            type="text"
+            value={amenity}
+            onChange={(e) => setAmenity(e.target.value)}
+            variant="outlined"
+          />
+
+          <Button
+            variant="contained"
+            sx={{
+              backgroundColor: "#415A77",
+              color: "#E0E1DD",
+              fontWeight: 600,
+              "&:hover": { backgroundColor: "#2f4256" },
+            }}
+            onClick={() => {
+              setAmenities([...amenities, amenity]);
+              setAmenity("");
+            }}
+          >
+            Add Amenity
+          </Button>
+
+          <div className="mx-10"></div>
+
           <TextField
             label="Rent Low"
             type="number"
             value={rentLow}
             onChange={(e) => setRentLow(e.target.value)}
             variant="outlined"
-            InputProps={{
-              sx: {
-                input: { color: "#E0E1DD", /* remove spin buttons */ "&::-webkit-outer-spin-button, &::-webkit-inner-spin-button": { WebkitAppearance: "none", margin: 0 }, "&[type=number]": { MozAppearance: "textfield" } },
-                label: { color: "#E0E1DD" },
-                fieldset: { borderColor: "#415A77" },
-                "&:hover fieldset": { borderColor: "#2f4256" },
-                "&.Mui-focused fieldset": { borderColor: "#415A77" },
-                minWidth: 100,
-                backgroundColor: "#1B263B",
-                borderRadius: 1,
-              }
-            }}
           />
 
           {/* Rent Max */}
@@ -75,20 +119,7 @@ function Header() {
             value={rentMax}
             onChange={(e) => setRentMax(e.target.value)}
             variant="outlined"
-            InputProps={{
-              sx: {
-                input: { color: "#E0E1DD", "&::-webkit-outer-spin-button, &::-webkit-inner-spin-button": { WebkitAppearance: "none", margin: 0 }, "&[type=number]": { MozAppearance: "textfield" } },
-                label: { color: "#E0E1DD" },
-                fieldset: { borderColor: "#415A77" },
-                "&:hover fieldset": { borderColor: "#2f4256" },
-                "&.Mui-focused fieldset": { borderColor: "#415A77" },
-                minWidth: 100,
-                backgroundColor: "#1B263B",
-                borderRadius: 1,
-              }
-            }}
           />
-
 
           <Button
             variant="contained"
@@ -99,19 +130,59 @@ function Header() {
               "&:hover": { backgroundColor: "#2f4256" },
             }}
           >
-            Apply Filters
+            Apply Range Filter
           </Button>
+
         </Toolbar>
       </AppBar>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          flexWrap: "wrap",
+          gap: "4px",
+        }}
+      > {
+          amenities.length > 0 && (
+            <p className="mb-0">Showing results only for : </p>
+          )
+        }
 
+        {
+          amenities.map((amenity, index) => {
+            // Ensure it's a string before processing
+            const label =
+              typeof amenity === "string" && amenity.length > 0
+                ? amenity.charAt(0).toUpperCase() + amenity.slice(1).toLowerCase()
+                : "";
+
+            const handleDelete = () => {
+              const updatedAmenities = amenities.filter((_, i) => i !== index);
+              setAmenities(updatedAmenities); // Assuming you have setAmenities in state
+            };
+
+            return label ? (
+              <Chip
+                key={index}
+                label={label}
+                onDelete={handleDelete}
+                sx={{ margin: 0.5 }}
+              />
+            ) : null;
+          })
+
+        }
+
+      </div>
       {/* Page Heading */}
       <div className="text-center mt-2">
         <h1 className="text-2xl font-bold text-[#E0E1DD]">Showing Properties in Sector 62, Noida</h1>
-        <p className="text-sm text-gray-400">Filters : Bachelor, Male, Parking</p>
+
       </div>
     </header>
   );
 }
+
 
 // PG Card Component
 function PGCard({ pg }) {

@@ -52,7 +52,7 @@ const TopView = ({data}) => {
               About PG
             </Typography>
 
-            <Box sx={{ width: "80%" }}>
+            <Box sx={{ width: "90%" }}>
               <table
                 style={{
                   borderCollapse: "separate",
@@ -61,6 +61,7 @@ const TopView = ({data}) => {
                   borderRadius: "12px",
                   overflow: "hidden",
                   width: "100%",
+                  textAlign:"left",
                   backgroundColor: "#1B263B", // theme background.paper
                   color: "#E0E1DD" // theme secondary.main
                 }}

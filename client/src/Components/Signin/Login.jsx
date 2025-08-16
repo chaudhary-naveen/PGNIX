@@ -85,7 +85,6 @@ const Login = () => {
     if (response.data.success) {
       setError("");
       console.log("setting Cookie");
-      document.cookie = 'TokenVenom = ' + response.data.token;
       dispatch(addUser(response.data.user));
       setload(false);
       navigate("/");
@@ -132,14 +131,7 @@ const Login = () => {
           >
             Login
           </Button>
-
-
-
-
           <hr></hr>
-
-
-
           <div className="sm-text-p">
             Dont have an account ?{" "}
             <Link to={"/welcome"}>Register Yourself</Link> instead

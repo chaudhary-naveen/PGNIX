@@ -17,7 +17,7 @@ import {
   Autocomplete,
   FormHelperText,
 } from "@mui/material";
-import cities from './cities.json'
+import cities from './../../cities.json'
 
 const AddNewPg = ({ open, setOpen }) => {
 
@@ -209,8 +209,6 @@ const AddNewPg = ({ open, setOpen }) => {
               </Divider>
               <div></div>
 
-           
-          
               <TextField
                 type="number"
                 label="Rent (₹)"

@@ -14,7 +14,7 @@
   top: 50%;
   transform: translateY(-50%);
   font-family: "Poppins", sans-serif;
-  background: linear-gradient(90deg, #2c67f2 0%, #3aa9d9 45%, #67c6b5 100%);
+  background: linear-gradient(90deg, #ffffff 0%, #ffffff 45%, #ffffff 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
