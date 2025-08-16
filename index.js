@@ -3,7 +3,6 @@ const express = require("express");
 const cors = require("cors");
 
 const connectdb = require("./config/connectdb.js");
-
 // const dummy_routes = require("./routes/dummyroutes.js");
 
 const cookieParser = require("cookie-parser");
@@ -41,3 +40,4 @@ app.listen(port, () => {
 });
 
 module.exports = app;
+module.exports.handler = serverless(app);
