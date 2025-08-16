@@ -100,7 +100,7 @@ const loginUser = async (req, res) => {
     const token = jwt.sign({ user: userData }, process.env.JWT, {
       expiresIn: "7d",
     });
-
+    // coookie -> user data pura hi bs password nhi
     return res
       .cookie("token", token, {
         httpOnly: true,
