@@ -15,7 +15,7 @@ const AddPg = async (req, res) => {
       isFurnished,
       description,
       typesOfRoom,
-      city
+      city,
     } = req.body;
 
     //get owner id
@@ -38,6 +38,15 @@ const AddPg = async (req, res) => {
       });
     }
 
+    // Upload images to Cloudinary
+    let imageUrls = [];
+
+    if (req.files && req.files.length > 0) {
+      const uploadPromises = req.files.map((file) =>
+        uploadOnCloudinary(file.path)
+      );
+      imageUrls = (await Promise.all(uploadPromises)).filter((url) => url); // null hata do
+    }
     //new property add
     const newProperty = new Property({
       propertyName,
@@ -51,7 +60,9 @@ const AddPg = async (req, res) => {
       description,
       owner: owner_id,
       typesOfRoom,
-      city
+      city,
+      images: imageUrls,
+      owner: owner_id,
     });
 
     const savedProperty = await newProperty.save();
@@ -65,7 +76,6 @@ const AddPg = async (req, res) => {
       message: "Property added successfully",
       property: savedProperty,
     });
-
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error", error: err.message });
@@ -258,15 +268,10 @@ const filterPg = async (req, res) => {
       count: properties.length,
       properties,
     });
-    
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
-
-
-
-
 
 module.exports = { AddPg, editPg, getAllPg, getGivenPg, removePg, filterPg };

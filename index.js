@@ -1,6 +1,9 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+
 const connectdb = require("./config/connectdb.js");
+
 // const dummy_routes = require("./routes/dummyroutes.js");
 
 const cookieParser = require("cookie-parser");
@@ -19,9 +22,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// DataBase Connection
-connectdb();
-
 app.use(express.static(path.join(__dirname, "client", "dist")));
 
 app.get("/", (req, res) => {
@@ -30,11 +30,13 @@ app.get("/", (req, res) => {
 
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/owner", ownerRoutes);
-app.use("/api/v1/owner/pg", pgRoutes);
+app.use("/api/v1/pg", pgRoutes);
 app.use("/api/v1/pg/filter", filterPg);
 app.use("/api", routes);
 
-const server = app.listen(port, () => {
+// DataBase Connection
+connectdb();
+app.listen(port, () => {
   console.log(`run on the this ${port}`);
 });
 
