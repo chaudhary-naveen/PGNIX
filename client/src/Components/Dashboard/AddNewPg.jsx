@@ -14,10 +14,13 @@ import {
   Divider,
   Typography,
   Autocomplete,
+  Chip,
   FormHelperText,
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import cities from "./../../cities.json";
+import { set } from "mongoose";
+import RoomSection from "./RoomTypeForm";
 
 const darkTheme = createTheme({
   palette: {
@@ -56,19 +59,43 @@ const darkTheme = createTheme({
 });
 
 const AddNewPg = ({ open, setOpen }) => {
+
+  const [amenities, setAmenities] = React.useState({
+    single: "",
+    double: "",
+    triple: "",
+    common: ""
+  });
+
   const [formData, setFormData] = React.useState({
     propertyName: "",
     location: "",
     status: "Active",
-    rent: "",
-    isCoed: false,
-    totalRooms: "",
-    acRooms: "",
+    tenetType: "co_ed",
     isFurnished: "",
-    securityMoney: "",
     description: "",
     city: "",
     images: [],
+    common_amenities: [],
+
+    single_rent: "",
+    single_total_rooms: "",
+    single_vacant_rooms: "",
+    single_room_security: "",
+    single_amenities: [],
+
+    double_rent: "",
+    double_total_rooms: "",
+    double_vacant_rooms: "",
+    double_room_security: "",
+    double_amenities: [],
+
+    triple_rent: "",
+    triple_total_rooms: "",
+    triple_vacant_rooms: "",
+    triple_room_security: "",
+    triple_amenities: [],
+
   });
 
   const [touched, setTouched] = React.useState({});
@@ -95,6 +122,7 @@ const AddNewPg = ({ open, setOpen }) => {
       acc[key] = true;
       return acc;
     }, {});
+
     setTouched(allTouched);
 
     if (parseInt(formData.acRooms) > parseInt(formData.totalRooms)) {
@@ -107,12 +135,7 @@ const AddNewPg = ({ open, setOpen }) => {
       return;
     }
 
-    for (const [key, value] of Object.entries(formData)) {
-      if (!value && key !== "acRooms") {
-        setError(`${key.replace(/([A-Z])/g, " $1")} is required.`);
-        return;
-      }
-    }
+    console.log("You have reached");
 
     console.log("New PG Data:", formData);
     handleClose();
@@ -273,11 +296,12 @@ const AddNewPg = ({ open, setOpen }) => {
                 )}
                 fullWidth
               />
+
               <FormControl fullWidth>
-                <InputLabel sx={{ color: "#b3b3b3" }}>Co-ed PG</InputLabel>
+                <InputLabel sx={{ color: "#b3b3b3" }}>Tenet Type</InputLabel>
                 <Select
-                  name="isCoed"
-                  value={formData.isCoed ? "true" : "false"}
+                  name="tenetType"
+                  value={formData.tenetType}
                   onChange={handleChange}
                   sx={{
                     "& .MuiOutlinedInput-notchedOutline": {
@@ -294,142 +318,12 @@ const AddNewPg = ({ open, setOpen }) => {
                     },
                   }}
                 >
-                  <MenuItem value="true">Yes</MenuItem>
-                  <MenuItem value="false">No</MenuItem>
+                  <MenuItem value="male">Male Only</MenuItem>
+                  <MenuItem value="female">Female Only</MenuItem>
+                  <MenuItem value="co_ed">CO-ED</MenuItem>
                 </Select>
               </FormControl>
-              {/* Additional form fields */}
-              <TextField
-                type="number"
-                label="Total Rooms"
-                name="totalRooms"
-                fullWidth
-                value={formData.totalRooms}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={touched.totalRooms && !formData.totalRooms}
-                helperText={
-                  touched.totalRooms && !formData.totalRooms ? "Required" : ""
-                }
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    "& fieldset": {
-                      borderColor: "#444",
-                    },
-                    "&:hover fieldset": {
-                      borderColor: "#ff4d4d",
-                    },
-                    "&.Mui-focused fieldset": {
-                      borderColor: "#ff4d4d",
-                    },
-                  },
-                  "& .MuiInputLabel-root": {
-                    color: "#b3b3b3",
-                  },
-                  "& .MuiInputLabel-root.Mui-focused": {
-                    color: "#ff4d4d",
-                  },
-                }}
-              />
-              <TextField
-                type="number"
-                label="AC Rooms"
-                name="acRooms"
-                fullWidth
-                value={formData.acRooms}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    "& fieldset": {
-                      borderColor: "#444",
-                    },
-                    "&:hover fieldset": {
-                      borderColor: "#ff4d4d",
-                    },
-                    "&.Mui-focused fieldset": {
-                      borderColor: "#ff4d4d",
-                    },
-                  },
-                  "& .MuiInputLabel-root": {
-                    color: "#b3b3b3",
-                  },
-                  "& .MuiInputLabel-root.Mui-focused": {
-                    color: "#ff4d4d",
-                  },
-                }}
-              />
-              {error && <FormHelperText error>{error}</FormHelperText>}
-              <Divider
-                sx={{
-                  gridColumn: "1 / -1",
-                  mt: 1,
-                  mb: 2,
-                  background:
-                    "linear-gradient(to right, transparent, #444, transparent)",
-                  height: "1px",
-                }}
-              />
-              <TextField
-                type="number"
-                label="Rent (₹)"
-                name="rent"
-                fullWidth
-                value={formData.rent}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={touched.rent && !formData.rent}
-                helperText={touched.rent && !formData.rent ? "Required" : ""}
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    "& fieldset": {
-                      borderColor: "#444",
-                    },
-                    "&:hover fieldset": {
-                      borderColor: "#ff4d4d",
-                    },
-                    "&.Mui-focused fieldset": {
-                      borderColor: "#ff4d4d",
-                    },
-                  },
-                  "& .MuiInputLabel-root": {
-                    color: "#b3b3b3",
-                  },
-                  "& .MuiInputLabel-root.Mui-focused": {
-                    color: "#ff4d4d",
-                  },
-                }}
-              />
-              <TextField
-                type="number"
-                label="Security Money (₹)"
-                name="securityMoney"
-                fullWidth
-                value={formData.securityMoney}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={!!securityError}
-                helperText={securityError}
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    "& fieldset": {
-                      borderColor: "#444",
-                    },
-                    "&:hover fieldset": {
-                      borderColor: "#ff4d4d",
-                    },
-                    "&.Mui-focused fieldset": {
-                      borderColor: "#ff4d4d",
-                    },
-                  },
-                  "& .MuiInputLabel-root": {
-                    color: "#b3b3b3",
-                  },
-                  "& .MuiInputLabel-root.Mui-focused": {
-                    color: "#ff4d4d",
-                  },
-                }}
-              />
+
               <FormControl fullWidth>
                 <InputLabel sx={{ color: "#b3b3b3" }}>Furnishing</InputLabel>
                 <Select
@@ -455,8 +349,7 @@ const AddNewPg = ({ open, setOpen }) => {
                   <MenuItem value="Unfurnished">No</MenuItem>
                 </Select>
               </FormControl>
-              <div></div> {/* Spacer */}
-              {/* Description Field */}
+
               <TextField
                 label="Description"
                 name="description"
@@ -487,6 +380,47 @@ const AddNewPg = ({ open, setOpen }) => {
                   },
                 }}
               />
+
+              <RoomSection
+                title="Single"
+                fieldPrefix="single"
+                formData={formData}
+                setFormData={setFormData}
+                amenities={amenities}
+                setAmenities={setAmenities}
+                handleChange={handleChange}
+                handleBlur={handleBlur}
+                touched={touched}
+               
+              />
+
+              <RoomSection
+                title="Double"
+                fieldPrefix="double"
+                formData={formData}
+                setFormData={setFormData}
+                amenities={amenities}
+                setAmenities={setAmenities}
+                handleChange={handleChange}
+                handleBlur={handleBlur}
+                touched={touched}
+               
+              />
+
+              <RoomSection
+                title="Triple"
+                fieldPrefix="triple"
+                formData={formData}
+                setFormData={setFormData}
+                amenities={amenities}
+                setAmenities={setAmenities}
+                handleChange={handleChange}
+                handleBlur={handleBlur}
+                touched={touched}
+                
+              />
+
+
               {/* Image Upload Section */}
               <div style={{ gridColumn: "1 / -1", marginTop: "16px" }}>
                 <div
