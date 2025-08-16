@@ -13,6 +13,7 @@ import Signin from "./Components/Signin/Signin";
 import Login from "./Components/Signin/Login";
 import Navbar from "./Components/Navbar/Navbar";
 import ProductPage from "./productPage/ProductPage";
+import VisitForm from "./HomePage/VisitForm";
 import { useEffect } from "react";
 import axios from "axios";
 import path from "./path";
@@ -28,6 +29,7 @@ function App() {
         <Route path="/login" element={<Login></Login>}></Route>
         <Route path="/product" element={<ProductPage></ProductPage>}></Route>
         <Route path="/dashboard" element={<Dashboard />}></Route>
+        <Route path="/visit" element={<VisitForm />}></Route>
       </Routes>
     </>
   );
