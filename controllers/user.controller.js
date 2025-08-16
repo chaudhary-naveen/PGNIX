@@ -37,7 +37,8 @@ const createUser = async (req, res) => {
       firstname,
       gender,
       lastname,
-      dob
+      dob,
+      phone
     } = req.body;
 
 
@@ -58,7 +59,8 @@ const createUser = async (req, res) => {
         firstname,
         lastname,
         dob,
-        gender
+        gender,
+        phone
       });
 
       user = user.toObject();

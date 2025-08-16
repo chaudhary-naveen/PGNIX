@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import TopView from './TopView';
@@ -6,10 +6,31 @@ import RoomsDetails from './RoomsDeatails';
 import CommonAminities from './CommonAminities';
 import { useTheme } from '@mui/material/styles';
 import Divider from '@mui/material/Divider';
+import { useSearchParams } from 'react-router';
+import axios from 'axios';
 
 const ProductPage = () => {
   const theme = useTheme();
+  const {searchParams} = useSearchParams();
+  const [data,setData] = useState({});
 
+  const property_id = searchParams.get('id');
+
+  const getPropertyData = async ()=>{
+    try{
+      const response = await axios.get(`${path}/api/v1/pg/${property_id}`);
+      if(response.status == 200){
+          setData(response.data.property)
+      }
+    }catch(err){
+      console.log(err);
+    }
+  };
+
+  useEffect(()=>{
+    getPropertyData();
+  },[id]);
+  
   return (
     <>
       {/* Page Heading */}
@@ -29,7 +50,7 @@ const ProductPage = () => {
             mb: 4,
           }}
         >
-          GENZ Premium PG - Sector 62, Noida
+          {data ? data.propertyName : "Loading..."};
         </Typography>
         <TopView />
       </Box>
@@ -51,6 +72,7 @@ const ProductPage = () => {
         <Box sx={{ padding: '40px' }}>
           <CommonAminities />
         </Box>
+
         <Divider
           sx={{
             width: "100%", // set your custom width

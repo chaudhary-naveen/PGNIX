@@ -57,7 +57,7 @@ const Login = () => {
         password: passwordref.current.value,
         email: emailref.current.value,
       });
-    
+
       if (response.data.success) {
         setError("");
         dispatch(addUser(response.data.user));
@@ -73,7 +73,7 @@ const Login = () => {
   };
 
   const guestLogin = async () => {
-   
+
     setload(true);
     const response = await axios.post(`${path}login`, {
       password: "@Admin1234",
@@ -110,18 +110,35 @@ const Login = () => {
             <input type="password" ref={passwordref} onBlur={validate}></input>
           </div>
           <div className="login-box-error">{error}</div>
-       
+
           <Button
-            fullwidth
             variant="contained"
             disabled={disabled}
             onClick={submitHandler}
+            sx={{
+              backgroundColor: '#415A77', // primary blue
+              color: '#fff',
+              fontWeight: 600,
+              borderRadius: '12px',
+              '&:hover': {
+                backgroundColor: '#2f4256', // darker hover shade
+              },
+              '&.Mui-disabled': {
+                backgroundColor: '#ffffffff',
+                color: 'gray', // lighter text
+                border : "1px solid gray"
+              },
+            }}
           >
             Login
           </Button>
+
+
+
+
           <hr></hr>
 
-         
+
 
           <div className="sm-text-p">
             Dont have an account ?{" "}

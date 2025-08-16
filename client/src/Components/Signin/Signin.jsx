@@ -32,6 +32,7 @@ const Signin = () => {
   const [gender, setgender] = useState("male");
   const [load, setload] = useState(false);
   const [role, setRole] = useState("user");
+  const [phone, setPhone] = useState("");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -84,6 +85,7 @@ const Signin = () => {
         gender,
         lastname,
         dob,
+        phone
       });
 
 
@@ -227,7 +229,13 @@ const Signin = () => {
                     onChange={(e) => setlastname(e.target.value)}
                   ></input>
                 </div>
-
+                <div className="login-box-field">
+                  <p>Phone Number</p>
+                  <input
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                  ></input>
+                </div>
                 <div className="login-box-field">
                   <p>Date of Birth</p>
                   <input

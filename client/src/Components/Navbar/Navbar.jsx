@@ -15,18 +15,23 @@ import AdbIcon from '@mui/icons-material/Adb';
 import logo from './../../assets/logo.jpeg'
 import PersonIcon from '@mui/icons-material/Person';
 import { useNavigate } from 'react-router';
+import {removeUser} from './../../utils/slices/userSlice';
+import {useDispatch, useSelector} from 'react-redux';
 import './Navbar.css';
 
 
 
 const pages = ["Home","About","Contact","Service"];
-const settings = ["Login","Sign up"];
+
 
 
 const Navbar =()=>{
-    const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const dispatch = useDispatch();
   const navigate = useNavigate()
+
+  const user = useSelector((state) => state.user.user);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -112,37 +117,20 @@ const Navbar =()=>{
             </Menu>
           </Box>
 
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 2,
-              display: { xs: 'flex', md: 'none' },
-              flexGrow: 1,
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-            LOGO
-          </Typography>
+      
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {/* {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
+           
+              {/* <Button      
                 sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
-            ))} */}
+              > 
+              Hi, 
+              </Button> */}
+           
           </Box>
-          <Box sx={{ flexGrow: 0 }}>
+
+          {
+            user ? (
+              <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }} >
                 <Avatar color='secondary' alt='N'>  
@@ -165,13 +153,40 @@ const Navbar =()=>{
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={()=>handleCloseUserMenu(setting)}>
-                  <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
-                </MenuItem>
-              ))}
+              <MenuItem  onClick={ ()=>{ 
+                localStorage.clear();
+                window.reload();
+
+              }}>
+                  <Typography sx={{ textAlign: 'center' }}>Account</Typography>
+              </MenuItem>
+
+              <MenuItem  onClick={()=>{localstorage.clear()}}>
+                  <Typography sx={{ textAlign: 'center' }}>Dashboard</Typography>
+              </MenuItem>
+              <MenuItem onClick={()=>{
+                dispatch(removeUser());
+              }}>
+                  <Typography sx={{ textAlign: 'center' }}>Logout</Typography>
+              </MenuItem>
+           
             </Menu>
           </Box>
+          
+            ) : (
+              <Button
+                variant="contained"
+                color="secondary"
+                startIcon={<PersonIcon />}
+                onClick={() => navigate('/login')}
+              >
+                Login / Signup
+              </Button>
+            )
+          }
+
+          
+
         </Toolbar>
       </Container>
     </AppBar>

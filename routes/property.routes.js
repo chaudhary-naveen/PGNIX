@@ -39,7 +39,7 @@ router.get("/:id", getGivenPg);
 
 // filter pg
 // Get
-
+router.get('/search/pg',filterPg);
 // ####rest according to need add krenge apn log############
 
-router.module.exports = router;
+module.exports = router;

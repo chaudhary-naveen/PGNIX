@@ -51,6 +51,7 @@ const AddPg = async (req, res) => {
       owner: owner_id,
       typesOfRoom,
     });
+
     const savedProperty = await newProperty.save();
 
     //now push this property -> owner db property
@@ -62,6 +63,7 @@ const AddPg = async (req, res) => {
       message: "Property added successfully",
       property: savedProperty,
     });
+
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error", error: err.message });
@@ -101,6 +103,7 @@ const editPg = async (req, res) => {
         .status(400)
         .json({ message: "Property name cannot be changed" });
     }
+
     // mera bhai ye sirf chekc kr rha hi key property Nme na ho bs
     Object.keys(updates).forEach((key) => {
       if (key !== "propertyName") {
@@ -253,6 +256,7 @@ const filterPg = async (req, res) => {
       count: properties.length,
       properties,
     });
+    
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error", error: error.message });
