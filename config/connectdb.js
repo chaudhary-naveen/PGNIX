@@ -1,25 +1,6 @@
-// const dotenv = require("dotenv");
-// dotenv.config();
-// const mongoose = require("mongoose"); // Atlas URL
+const dotenv = require("dotenv");
+dotenv.config();
 
-// const connectdb = async () => {
-//   mongoose.set("strictQuery", false);
-//   await mongoose.connect(process.env.MONGO_URL);
-
-//   // ye depreicated hi ab use nhi hota bhai
-//   // , {
-//   //     useNewUrlParser: true,
-//   //     useUnifiedTopology: true,
-//   // }
-
-//   const db = mongoose.connection;
-//   db.on("error", console.error.bind(console, "connection error:"));
-//   db.once("open", () => {
-//     console.log("\nDB connected\nEnjoy Surfing");
-//   });
-// };
-
-// module.exports = connectdb;
 const mongoose = require("mongoose");
 
 const connectdb = async () => {
