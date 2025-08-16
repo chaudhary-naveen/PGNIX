@@ -29,9 +29,9 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/v1/user", userRoute);
+app.use("/api/v1/pg/filter", filterPg);
 app.use("/api/v1/owner", ownerRoutes);
 app.use("/api/v1/pg", pgRoutes);
-app.use("/api/v1/pg/filter", filterPg);
 app.use("/api", routes);
 
 // DataBase Connection

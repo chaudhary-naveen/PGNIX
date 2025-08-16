@@ -9,7 +9,7 @@ const {
   filterPg,
 } = require("../controllers/Pg.controller");
 const isOwner = require("../middleware/isOwner.middleware");
-const { auth } = require("../middleware/auth.middleware.js");
+const { auth } = require("../middleware/auth.js");
 const { upload } = require("../middleware/multer.middleware");
 
 // ******************Private Routes (owner)*************************

@@ -19,7 +19,7 @@ const ProductPage = () => {
 
   const getPropertyData = async ()=>{
     try{
-      const response = await axios.get(`${path}/api/v1/owner/pg/${property_id}`);
+      const response = await axios.get(`${path}/api/v1/pg/${property_id}`);
       if(response.status == 200){
           setData(response.data.property)
       }
