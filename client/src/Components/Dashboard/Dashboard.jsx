@@ -1,5 +1,5 @@
 import Card from "@mui/material/Card";
-import OwnerNameSection from "./OwnerNameSection"
+import OwnerNameSection from "./OwnerNameSection";
 import MainContent from "./MainContent";
 import { useState } from "react";
 import ParticularPgPage from "./ParticularPg/ParticularPgPage";
@@ -25,7 +25,12 @@ const dashboardData = [
         non_acRooms: 2,
         description: "Girls PG near metro station with all basic amenities.",
         isFurninshed: true,
-        securityMoney: 5000
+        securityMoney: 5000,
+        images: [
+          "https://picsum.photos/200/300",
+          "https://picsum.photos/200/301",
+          "https://picsum.photos/200/302",
+        ],
       },
       {
         id: "2",
@@ -42,7 +47,11 @@ const dashboardData = [
         non_acRooms: 2,
         description: "Fully furnished co-ed PG with fast WiFi and laundry.",
         isFurninshed: true,
-        securityMoney: 6000
+        securityMoney: 6000,
+        images: [
+          "https://picsum.photos/200/303",
+          "https://picsum.photos/200/304",
+        ],
       },
       {
         id: "3",
@@ -59,7 +68,8 @@ const dashboardData = [
         non_acRooms: 6,
         description: "Budget PG for students with spacious rooms.",
         isFurninshed: false,
-        securityMoney: 3000
+        securityMoney: 3000,
+        images: ["https://picsum.photos/200/305"],
       },
       {
         id: "4",
@@ -76,7 +86,11 @@ const dashboardData = [
         non_acRooms: 2,
         description: "Premium co-ed PG with gym and common kitchen.",
         isFurninshed: true,
-        securityMoney: 7000
+        securityMoney: 7000,
+        images: [
+          "https://picsum.photos/200/306",
+          "https://picsum.photos/200/307",
+        ],
       },
       {
         id: "5",
@@ -93,7 +107,11 @@ const dashboardData = [
         non_acRooms: 2,
         description: "Spacious boys PG with 24x7 security and meals.",
         isFurninshed: true,
-        securityMoney: 4000
+        securityMoney: 4000,
+        images: [
+          "https://picsum.photos/200/308",
+          "https://picsum.photos/200/309",
+        ],
       },
       {
         id: "6",
@@ -110,7 +128,8 @@ const dashboardData = [
         non_acRooms: 5,
         description: "Affordable PG for boys with mess and WiFi.",
         isFurninshed: false,
-        securityMoney: 3500
+        securityMoney: 3500,
+        images: ["https://picsum.photos/200/310"],
       },
       {
         id: "7",
@@ -127,7 +146,8 @@ const dashboardData = [
         non_acRooms: 0,
         description: "Girls-only PG near offices with AC in all rooms.",
         isFurninshed: true,
-        securityMoney: 8000
+        securityMoney: 8000,
+        images: ["https://picsum.photos/200/311"],
       },
       {
         id: "8",
@@ -144,7 +164,11 @@ const dashboardData = [
         non_acRooms: 4,
         description: "Well-maintained co-ed PG in a safe locality.",
         isFurninshed: true,
-        securityMoney: 5000
+        securityMoney: 5000,
+        images: [
+          "https://picsum.photos/200/312",
+          "https://picsum.photos/200/313",
+        ],
       },
       {
         id: "9",
@@ -161,7 +185,8 @@ const dashboardData = [
         non_acRooms: 4,
         description: "Under renovation. Will reopen next month.",
         isFurninshed: false,
-        securityMoney: 4000
+        securityMoney: 4000,
+        images: ["https://picsum.photos/200/314"],
       },
       {
         id: "10",
@@ -178,29 +203,44 @@ const dashboardData = [
         non_acRooms: 3,
         description: "Luxurious co-ed PG close to railway station.",
         isFurninshed: true,
-        securityMoney: 10000
-      }
-    ]
-  }
+        securityMoney: 10000,
+        images: [
+          "https://picsum.photos/200/315",
+          "https://picsum.photos/200/316",
+        ],
+      },
+    ],
+  },
 ];
 
 const Dashboard = () => {
-  const [open, setOpen] = useState(false)
-  const ownerData = useSelector(state => state.user.user);
-  const [selectPg, setSelectPg] = useState("")
+  const [open, setOpen] = useState(false);
+  const ownerData = useSelector((state) => state.user.user);
+  const [selectPg, setSelectPg] = useState("");
 
-  return <div className="container ">
-    {/* Dashboard Top Name section */}
-    <OwnerNameSection ownerName={ownerData?.firstname} />
-    {
-      <Box>
-        {
-          open ? <ParticularPgPage dashboardData={dashboardData} selectPg={selectPg} setOpen={setOpen} open={open} /> : null
-        }
-      </Box>
-    }
-    <MainContent dashboardData={dashboardData} setSelectPg={setSelectPg} setOpen={setOpen} />
-  </div>
-}
+  return (
+    <div className="container ">
+      {/* Dashboard Top Name section */}
+      <OwnerNameSection ownerName={ownerData?.firstname} />
+      {
+        <Box>
+          {open ? (
+            <ParticularPgPage
+              dashboardData={dashboardData}
+              selectPg={selectPg}
+              setOpen={setOpen}
+              open={open}
+            />
+          ) : null}
+        </Box>
+      }
+      <MainContent
+        dashboardData={dashboardData}
+        setSelectPg={setSelectPg}
+        setOpen={setOpen}
+      />
+    </div>
+  );
+};
 
-export default Dashboard
+export default Dashboard;
