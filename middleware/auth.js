@@ -22,7 +22,7 @@ const auth = (req, res, next) => {
       }
       console.log("Token Verified");
       req.user = decoded_data.user;
-      console.log(req.user);
+      // console.log(req.user);
       next();
     });
     

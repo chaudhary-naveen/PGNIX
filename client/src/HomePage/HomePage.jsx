@@ -53,8 +53,8 @@ export default function Home() {
       const response_from_server = await axios.get(`${path}/api/v1/pg/filter`, {
         params: {
           city,
-          minRent: rentLow,
-          maxRent: rentMax,
+          minPrice: rentLow,
+          maxPrice: rentMax,
           amenities,
           location
         }
@@ -124,13 +124,13 @@ export default function Home() {
           <input
             type="text"
             value={location}
-            onChange={()=>setLocation(e.target.value)}
+            onChange={(e) => setLocation(e.target.value)}
             placeholder="Locality"
             className="px-2 py-[9px] border border-gray-300 rounded text-[#E0E1DD] bg-[#1B263B] focus:outline-none focus:border-blue-500 w-full sm:w-64"
           />
 
           {/* Search Button */}
-          <button className="px-3 py-[9px] text-[#1B263B] bg-[#E0E1DD] rounded hover:bg-[#E0E1DF] transition-colors">
+          <button className="px-3 py-[9px] text-[#1B263B] bg-[#E0E1DD] rounded hover:bg-[#E0E1DF] transition-colors" onClick={fetchPgs}>
             Search Properties
           </button>
         </div>
@@ -193,11 +193,13 @@ export default function Home() {
 
             <Button
               variant="contained"
+              onClick={fetchPgs}
               sx={{
                 background: 'linear-gradient(90deg, #ff5f6d, #ffc371)',
                 color: "#FFFFFF",
                 fontWeight: 600,
                 borderRadius: "8px",
+              
                 textTransform: "none",
                 px: 3,
                 py: 1,

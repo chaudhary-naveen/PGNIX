@@ -379,10 +379,39 @@ const removePg = async (req, res) => {
 //ye hi filter krne wala controler
 const filterPg = async (req, res) => {
   try {
-    const { location, city, amenities, minPrice, maxPrice } = req.query;
-
+    const { location, city, minPrice, maxPrice } = req.query;
+    let amenities = req.query.amenities || req.query["amenities[]"];
+    console.log(req.query);
     let filter = {};
 
+
+
+    // Amenities filter (common amenities)
+    if (amenities) {
+      filter.$expr = {
+        $allElementsTrue: {
+          $map: {
+            input: amenities,
+            as: "a",
+            in: {
+              $in: [
+                "$$a",
+                {
+                  $setUnion: [
+                    { $ifNull: ["$common_amenities", []] },
+                    { $ifNull: ["$single_room_amenities", []] },
+                    { $ifNull: ["$double_room_amenities", []] },
+                    { $ifNull: ["$triple_room_amenities", []] }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      };
+    }
+
+    // $all ensures all specified amenities are present
     // Location filter (case-insensitive)
     if (location) {
       filter.location = { $regex: location, $options: "i" };
@@ -391,13 +420,6 @@ const filterPg = async (req, res) => {
     // City filter (case-insensitive)
     if (city) {
       filter.city = { $regex: city, $options: "i" };
-    }
-
-    // Amenities filter (common amenities)
-    if (amenities) {
-      const amenitiesArray = amenities.split(",").map((a) => a.trim());
-      filter.common_amenities = { $all: amenitiesArray };
-      // $all ensures all specified amenities are present
     }
 
     // Rent filter: yaha single_rent, double_rent, triple_rent alag-alag ho sakte hai
@@ -414,9 +436,7 @@ const filterPg = async (req, res) => {
       });
     }
 
-    // sirf active properties
-    filter.status = "Active";
-
+    console.log(filter);
     const properties = await Property.find(filter)
       .populate("owner", "firstname lastname email phone")
       .sort({ createdAt: -1 });
@@ -426,6 +446,7 @@ const filterPg = async (req, res) => {
       count: properties.length,
       properties,
     });
+
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error", error: error.message });

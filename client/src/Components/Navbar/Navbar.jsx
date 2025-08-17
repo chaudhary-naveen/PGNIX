@@ -153,17 +153,12 @@ const Navbar =()=>{
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              <MenuItem  onClick={ ()=>{ 
-                localStorage.clear();
-                window.reload();
-
-              }}>
-                  <Typography sx={{ textAlign: 'center' }}>Account</Typography>
-              </MenuItem>
+            
 
               <MenuItem  onClick={()=>{navigate('/dashboard')}}>
                   <Typography sx={{ textAlign: 'center' }}>Dashboard</Typography>
               </MenuItem>
+              
               <MenuItem onClick={()=>{
                 dispatch(removeUser());
               }}>
