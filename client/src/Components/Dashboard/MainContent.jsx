@@ -60,7 +60,7 @@ const MainContent = ({ dashboardData, setSelectPg, setOpen }) => {
                   Total Properties
                 </p>
                 <p style={{ fontSize: "3rem", fontWeight: 700, color: "dark" }}>
-                  {dashboardData[0].properties.length}
+                  {dashboardData?.count}
                 </p>
               </Card>
             </div>

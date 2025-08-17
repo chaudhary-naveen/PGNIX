@@ -11,7 +11,7 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { Chip } from "@mui/material";
 import path from "../../path";
 import axios from "axios";
-import { addUser } from "../../utils/slices/userSlice";
+import { addUser , setToken } from "../../utils/slices/userSlice";
 import { useDispatch } from 'react-redux';
 import LinearProgress from '@mui/material/LinearProgress';
 import { ToastContainer, toast } from 'react-toastify';
@@ -91,6 +91,7 @@ const Signin = () => {
 
       if (response.data.success) {
         dispatch(addUser(response.data.user));
+        dispatch(setToken(response.data.token));
         navigate('../');
         setError("");
       }

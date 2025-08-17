@@ -68,9 +68,15 @@ const createUser = async (req, res) => {
 
     user = user.toObject();
     delete user.password;
+
+    //token
+    const token = jwt.sign({ user: user }, process.env.JWT, {
+      expiresIn: "7d",
+    });
+
     return res
       .status(200)
-      .json({ success: true, msg: "User created successfully", user });
+      .json({ success: true, msg: "User created successfully", user, token });
     // }
   } catch (err) {
     console.error(err);
@@ -123,9 +129,7 @@ const loginUser = async (req, res) => {
     return res
       .cookie("token", token, {
         httpOnly: true,
-        sameSite: "strict",
         maxAge: 3 * 24 * 60 * 60 * 1000,
-        // 3 days
       })
       .status(200)
       .json({

@@ -23,13 +23,12 @@ const aboutData = [
 ]
 
 const TopView = ({data}) => {
-  console.log(data);
   return (
     <div className='container'>
       <div className="row" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
         {/* image section */}
         <div className="col">
-          <TopImageContainer />
+          <TopImageContainer  data={data}/>
         </div>
       </div>
 

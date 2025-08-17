@@ -35,7 +35,7 @@ function getComparator(order, orderBy) {
 const headCells = [
   { id: "name", label: "Property Name" },
   { id: "location", label: "Location" },
-  { id: "status", label: "Status" },
+  { id: "Vacant Rooms", label: "Vacant rooms" },
   { id: "details", label: "Details" }, // new column
 ];
 
@@ -111,9 +111,7 @@ export default function PgTableListDashBoard({
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   useEffect(() => {
-    const data = dashboardData[0]?.properties.map((obj, index) =>
-      createData(index + 1, obj.propertyName, obj.location, obj.status)
-    );
+    const data = dashboardData?.properties;
     setRows(data || []);
   }, [dashboardData]);
 
@@ -162,56 +160,63 @@ export default function PgTableListDashBoard({
               onRequestSort={handleRequestSort}
             />
             <TableBody>
-              {visibleRows.map((row) => (
-                <TableRow
-                  hover
-                  tabIndex={1}
-                  key={row.id}
-                  sx={{
-                    "&:hover": {
-                      backgroundColor: "#1B263B",
-                    },
-                  }}
-                >
-                  <TableCell align="center" sx={{ color: "#E0E1DD" }}>
-                    {row.name}
-                  </TableCell>
-                  <TableCell align="center" sx={{ color: "#E0E1DD" }}>
-                    {row.location}
-                  </TableCell>
-                  <TableCell
-                    align="center"
+              {visibleRows.map( (row) => {
+                
+                const vacancy = row.single_vacant_rooms + row.double_vacant_rooms + row.triple_vacant_rooms;
+                const total = row.single_total_rooms + row.double_total_rooms + row.triple_total_rooms;
+
+                return (
+                  <TableRow
+                    hover
+                    tabIndex={1}
+                    key={row.id}
                     sx={{
-                      color: row.status === "Active" ? "green" : "red",
-                      fontWeight: 600,
+                      "&:hover": {
+                        backgroundColor: "#1B263B",
+                      },
                     }}
                   >
-                    {row.status}
-                  </TableCell>
-                  {/* Details Button */}
-                  <TableCell align="center">
-                    <Button
-                      variant="contained"
-                      size="small"
-                      onClick={() => {
-                        setOpen(true);
-                        setSelectPg(row.id);
-                      }}
+                    <TableCell align="center" sx={{ color: "#E0E1DD" }}>
+                      {row.propertyName}
+                    </TableCell>
+                    <TableCell align="center" sx={{ color: "#E0E1DD" }}>
+                      {row.location + ", " + row.city}
+                    </TableCell>
+                    <TableCell
+                      align="center"
                       sx={{
-                        backgroundColor: "#415A77", // primary theme
-                        color: "#E0E1DD",
+                        
                         fontWeight: 600,
-                        borderRadius: "8px",
-                        "&:hover": {
-                          backgroundColor: "#2f4256",
-                        },
                       }}
                     >
-                      Details
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
+                     {
+                      vacancy + " /  " + total
+                     } 
+                    </TableCell>
+                    {/* Details Button */}
+                    <TableCell align="center">
+                      <Button
+                        variant="contained"
+                        size="small"
+                        onClick={() => {
+                          setOpen(true);
+                          setSelectPg(row);
+                        }}
+                        sx={{
+                          backgroundColor: "#415A77", // primary theme
+                          color: "#E0E1DD",
+                          fontWeight: 600,
+                          borderRadius: "8px",
+                          "&:hover": {
+                            backgroundColor: "#2f4256",
+                          },
+                        }}
+                      >
+                        Details
+                      </Button>
+                    </TableCell>
+                  </TableRow>);
+              })}
               {visibleRows.length === 0 && (
                 <TableRow>
                   <TableCell colSpan={4} align="center" sx={{ color: "#E0E1DD" }}>

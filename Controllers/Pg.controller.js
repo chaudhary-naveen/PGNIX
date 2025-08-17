@@ -1,5 +1,6 @@
 const User = require("../Models/User");
 const Property = require("./../Models/Properties");
+const mongoose = require("mongoose");
 const { uploadOnCloudinary } = require("../config/cloudinary");
 // add pg
 const AddPg = async (req, res) => {
@@ -35,7 +36,7 @@ const AddPg = async (req, res) => {
     } = req.body;
 
     const owner_id = req.user._id;
-
+    console.log("API HIT");
     // Duplicate property check
     const pre_property = await Property.findOne({
       propertyName: propertyName.trim(),
@@ -302,13 +303,14 @@ const editPg = async (req, res) => {
 const getAllPersonalPg = async (req, res) => {
   try {
     const owner_id = req.user._id;
-    //jo bhi owner login hi usi ki sari property auengi ddosro ki property nhi dekh sakega
+    // owner se property nikaal lo
+
     const properties = await Property.find({ owner: owner_id })
       .populate("owner", "firstname lastname email")
       .sort({ createdAt: -1 });
 
     res.status(200).json({
-      message: "Your properties fetched successfully",
+      message: "Your properties fetched successfully :",
       count: properties.length,
       properties,
     });

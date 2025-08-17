@@ -7,10 +7,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { addUser } from "../../utils/slices/userSlice.js";
 import LinearProgress from "@mui/material/LinearProgress";
-
-
-
-
+import { setToken } from "../../utils/slices/userSlice.js";
 
 const Login = () => {
   const emailref = useRef();
@@ -61,10 +58,11 @@ const Login = () => {
       if (response.data.success) {
         setError("");
         dispatch(addUser(response.data.user));
+        dispatch(setToken(response.data.token));
         setload(false);
         navigate("/");
       } else {
-        setError(response.data.msg);
+        setError(response.data.message);
       }
     }
 

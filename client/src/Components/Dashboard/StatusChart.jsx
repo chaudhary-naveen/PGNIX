@@ -9,21 +9,21 @@ const settings = {
 };
 
 const StatusChart = ({ dashboardData }) => {
+  console.log(dashboardData);
+ 
   const [data, setData] = React.useState([
-    { label: "Active", value: 0, color: "#4CAF50" },
-    { label: "Inactive", value: 0, color: "#F44336" },
+    { label: "Vacant Rooms", value: 0, color: "#4CAF50" },
+    { label: "Occupied Rooms", value: 0, color: "#f56721ff" },
   ]);
 
   React.useEffect(() => {
-    const properties = dashboardData[0]?.properties || [];
-    const activeCount = properties.filter(
-      (prop) => prop.status.toLowerCase() === "active"
-    ).length;
-    const total = properties.length;
+    const properties = dashboardData?.properties || [];
+    const vacant = properties.reduce((acc, property) => { acc += property.single_vacant_rooms + property.double_vacant_rooms + property.triple_vacant_rooms; return acc; }, 0);
+    const total = properties.reduce((acc,property)=>{acc += property.single_total_rooms + property.double_total_rooms + property.triple_total_rooms; return acc;}, 0);
 
     const targetData = [
-      { label: "Active", value: activeCount, color: "#4CAF50" },
-      { label: "Inactive", value: total - activeCount, color: "#F44336" },
+      { label: "Vacant Rooms", value: vacant, color: "#4CAF50" },
+      { label: "Occupied Rooms", value: total - vacant, color: "#f56721ff" },
     ];
 
     let start = null;

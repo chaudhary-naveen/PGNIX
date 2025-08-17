@@ -13,7 +13,7 @@ const itemData = [
   { img: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62', title: 'Honey' },
 ];
 
-const TopImageContainer = () => {
+const TopImageContainer = ({data}) => {
   const settings = {
     dots: true,
     infinite: true,
@@ -28,14 +28,15 @@ const TopImageContainer = () => {
     ]
   };
 
+  console.log(data);
+
   return (
     <Box sx={{ width: '100%', overflow: 'hidden', p: 2, bgcolor: 'background.paper' }}>
       <Slider {...settings}>
-        {itemData.map((item, index) => (
+        {data?.images?.map((item, index) => (
           <Box key={index} sx={{ px: 1 }}>
             <img
-              src={`${item.img}?w=500&auto=format`}
-              alt={item.title}
+              src={`${item}?w=500&auto=format`}
               style={{
                 width: '100%',
                 height: '300px',

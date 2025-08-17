@@ -21,6 +21,9 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import cities from "./../../cities.json";
 import { set } from "mongoose";
 import RoomSection from "./RoomTypeForm";
+import axios from 'axios';
+import path from "../../path";
+import { useSelector } from "react-redux";
 
 const darkTheme = createTheme({
   palette: {
@@ -59,6 +62,8 @@ const darkTheme = createTheme({
 });
 
 const AddNewPg = ({ open, setOpen }) => {
+
+  const token = useSelector(state => state.user.token);
 
   const [amenities, setAmenities] = React.useState({
     single: "",
@@ -116,7 +121,7 @@ const AddNewPg = ({ open, setOpen }) => {
 
   const handleClose = () => setOpen(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const allTouched = Object.keys(formData).reduce((acc, key) => {
       acc[key] = true;
@@ -135,9 +140,15 @@ const AddNewPg = ({ open, setOpen }) => {
       return;
     }
 
-    console.log("You have reached");
-
     console.log("New PG Data:", formData);
+
+    const response = await axios.post(path + "/api/v1/pg/add", formData, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+
     handleClose();
   };
 
@@ -391,7 +402,7 @@ const AddNewPg = ({ open, setOpen }) => {
                 handleChange={handleChange}
                 handleBlur={handleBlur}
                 touched={touched}
-               
+
               />
 
               <RoomSection
@@ -404,7 +415,7 @@ const AddNewPg = ({ open, setOpen }) => {
                 handleChange={handleChange}
                 handleBlur={handleBlur}
                 touched={touched}
-               
+
               />
 
               <RoomSection
@@ -417,7 +428,7 @@ const AddNewPg = ({ open, setOpen }) => {
                 handleChange={handleChange}
                 handleBlur={handleBlur}
                 touched={touched}
-                
+
               />
 
 
