@@ -8,7 +8,7 @@ const {
   removePg,
   filterPg,
   getAllPg,
-} = require("../Controllers/Pg.controller");
+} = require("../controller/Pg.controller");
 const isOwner = require("../middleware/isOwner.middleware");
 const { auth } = require("../middleware/auth.js");
 const { upload } = require("../middleware/multer.middleware");
@@ -57,4 +57,3 @@ router.get("/search/pg", filterPg);
 // ####rest according to need add krenge apn log############
 
 module.exports = router;
-

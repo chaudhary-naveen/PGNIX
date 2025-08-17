@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { filterPg } = require("../Controllers/Pg.controller");
+const { filterPg } = require("../controller/Pg.controller");
 
 router.get("/", filterPg);
 
@@ -11,4 +11,3 @@ router.get("/", filterPg);
 // GET /api/pg/filter?roomTypes=single,double
 
 module.exports = router;
-

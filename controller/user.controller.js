@@ -42,42 +42,42 @@ const createUser = async (req, res) => {
       });
     }
 
-    // const otpresponse = await OTP.findOne({ email });
+    const otpresponse = await OTP.findOne({ email });
 
-    // if (!otpresponse) {
-    //   return res.status(404).json({ success: false, msg: "OTP not found" });
-    // }
+    if (!otpresponse) {
+      return res.status(404).json({ success: false, msg: "OTP not found" });
+    }
 
-    // if (otpresponse.otp != otp) {
-    //   return res.status(400).json({ success: false, msg: "Invalid OTP" });
-    // } else {
-    // no need password automaticaay hash ho jayega chnage hone pr
+    if (otpresponse.otp != otp) {
+      return res.status(400).json({ success: false, msg: "Invalid OTP" });
+    } else {
+      // no need password automaticaay hash ho jayega chnage hone pr
 
-    // const salt = await bcrypt.genSalt(10);
-    // const hashPassword = await bcrypt.hash(password, salt);
+      // const salt = await bcrypt.genSalt(10);
+      // const hashPassword = await bcrypt.hash(password, salt);
 
-    let user = await User.create({
-      email,
-      password,
-      firstname,
-      lastname,
-      dob,
-      gender,
-      phone,
-    });
+      let user = await User.create({
+        email,
+        password,
+        firstname,
+        lastname,
+        dob,
+        gender,
+        phone,
+      });
 
-    user = user.toObject();
-    delete user.password;
+      user = user.toObject();
+      delete user.password;
 
-    //token
-    const token = jwt.sign({ user: user }, process.env.JWT, {
-      expiresIn: "7d",
-    });
+      //token
+      const token = jwt.sign({ user: user }, process.env.JWT, {
+        expiresIn: "7d",
+      });
 
-    return res
-      .status(200)
-      .json({ success: true, msg: "User created successfully", user, token });
-    // }
+      return res
+        .status(200)
+        .json({ success: true, msg: "User created successfully", user, token });
+    }
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Internal Server Error" });
