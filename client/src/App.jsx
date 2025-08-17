@@ -17,6 +17,7 @@ import VisitForm from "./HomePage/VisitForm";
 import { useEffect } from "react";
 import axios from "axios";
 import path from "./path";
+import PrivateRoute from './Components/PrivateRoute'
 
 function App() {
   
@@ -28,7 +29,7 @@ function App() {
         <Route path="/welcome" element={<Signin></Signin>}></Route>
         <Route path="/login" element={<Login></Login>}></Route>
         <Route path="/product" element={<ProductPage></ProductPage>}></Route>
-        <Route path="/dashboard" element={<Dashboard />}></Route>
+        <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>}></Route>
         <Route path="/visit" element={<VisitForm />}></Route>
       </Routes>
     </>
