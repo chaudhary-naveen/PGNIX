@@ -17,11 +17,15 @@ const checkIfOwnerExist = async (req, res) => {
         .status(404)
         .json({ exists: true, message: "Owner already exists" });
     } else {
+
       const otp = await generateOtp();
 
       await OTP.deleteMany({ email });
+
       await OTP.create({ otp, email });
+
       await sendByEmail(email, otp);
+      
       console.log("OTP sent to email:", email + " with OTP: " + otp);
       return res.status(200).json({ exists: false, message: "Owner found" });
     }
@@ -35,6 +39,7 @@ const createUser = async (req, res) => {
       req.body;
 
     const preUser = await User.findOne({ email });
+    
     if (preUser) {
       return res.status(400).json({
         status: true,

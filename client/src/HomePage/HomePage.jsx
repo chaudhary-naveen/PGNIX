@@ -255,7 +255,7 @@ export default function Home() {
         </div>
         {/* Page Heading */}
         <div className="text-center mt-2">
-          <h1 className="text-2xl font-bold text-[#E0E1DD]">Showing Properties in Sector 62, Noida</h1>
+          <h1 className="text-2xl font-bold text-[#E0E1DD]">Showing Properties  {location}  {city}</h1>
 
         </div>
       </header>
