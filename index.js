@@ -1,21 +1,18 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-
-const connectdb = require("./config/connectdb.js");
-// const dummy_routes = require("./routes/dummyroutes.js");
-const serverless = require('serverless-http');
+const serverless = require("serverless-http");
 const cookieParser = require("cookie-parser");
 const path = require("path");
-const app = express();
 
-const port = process.env.PORT || 5001;
-
+const connectdb = require("./config/connectdb.js");
 const routes = require("./routes/routes.js");
 const userRoute = require("./routes/user.routes.js");
 const ownerRoutes = require("./routes/owner.routes.js");
 const pgRoutes = require("./routes/property.routes.js");
 const filterPg = require("./routes/filterPg.routes.js");
+
+const app = express();
 
 app.use(cors());
 app.use(express.json());
@@ -34,11 +31,9 @@ app.use("/api/v1/owner", ownerRoutes);
 app.use("/api/v1/pg", pgRoutes);
 app.use("/api", routes);
 
-// DataBase Connection
+// DB connection
 connectdb();
-app.listen(port, () => {
-  console.log(`run on the this ${port}`);
-});
+
 
 module.exports = app;
 module.exports.handler = serverless(app);
