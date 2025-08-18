@@ -264,20 +264,28 @@ export default function Home() {
 
         </div>
       </header>
+      {
+        <>
+          {load && Array.from({ length: 8 }).map((_, idx) => <PropertyCardSkeleton key={idx} />)}
+        </>
+      }
+      {
+        pgData.length > 0 ?
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 bg-[#0D1B2A]">
+            {
+              pgData.map((pg) => <PGCard key={pg.id} pg={pg} />)
+            }
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 bg-[#0D1B2A]">
-        {
-          <>
-            {load && Array.from({ length: 8 }).map((_, idx) => <PropertyCardSkeleton key={idx} />)}
-          </>
-        }
-        {load
-          ? Array.from({ length: 8 }).map((_, idx) => <PropertyCardSkeleton key={idx} />)
-          : pgData.length > 0
-            ? pgData.map((pg) => <PGCard key={pg.id} pg={pg} />)
-            : <p className="text-[white] text-center fullwidth">No Properties to show</p>}
-
-      </div>
+          </div> :
+          <p
+            className="flex items-center justify-center h-[50vh] w-full 
+      text-center text-2xl font-semibold 
+      text-[#415A77] bg-gradient-to-br from-[#0D1B2A] to-[#1B263B] 
+             tracking-wide shadow-lg"
+          >
+            No Properties to Show
+          </p>
+      }
     </div>
 
   );
