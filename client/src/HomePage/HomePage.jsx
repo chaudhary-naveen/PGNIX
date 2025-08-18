@@ -5,6 +5,7 @@ import path from "./../path";
 import PropertyCardSkeleton from "./PropertyCardSkeleton";
 import { AppBar, Toolbar, Typography, Box, Select, MenuItem, TextField, FormControl, InputLabel, Button, Autocomplete, Chip } from "@mui/material";
 import cities from './../cities.json'
+import { set } from "mongoose";
 
 
 // PG Card Component
@@ -46,9 +47,10 @@ export default function Home() {
   const [amenity, setAmenity] = useState("");
   const [amenities, setAmenities] = useState([]);
   const [location, setLocation] = useState("");
-
+  const [load, setLoad] = useState(false);
   const [pgData, setPgData] = useState([]);
   const fetchPgs = async () => {
+    setLoad(true);
     try {
       const response_from_server = await axios.get(`${path}/api/v1/pg/filter`, {
         params: {
@@ -58,6 +60,8 @@ export default function Home() {
           amenities,
           location
         }
+
+
       });
       if (response_from_server.status === 200) {
         setPgData(response_from_server.data.properties);
@@ -65,6 +69,7 @@ export default function Home() {
     } catch (err) {
       console.log(err);
     }
+    setLoad(false);
   };
 
   useEffect(() => {
@@ -199,7 +204,7 @@ export default function Home() {
                 color: "#FFFFFF",
                 fontWeight: 600,
                 borderRadius: "8px",
-              
+
                 textTransform: "none",
                 px: 3,
                 py: 1,
@@ -261,9 +266,17 @@ export default function Home() {
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 bg-[#0D1B2A]">
-        {pgData.length > 0
-          ? pgData.map((pg) => <PGCard key={pg.id} pg={pg} />)
-          : Array.from({ length: 8 }).map((_, idx) => <PropertyCardSkeleton key={idx} />)}
+        {
+          <>
+            {load && Array.from({ length: 8 }).map((_, idx) => <PropertyCardSkeleton key={idx} />)}
+          </>
+        }
+        {load
+          ? Array.from({ length: 8 }).map((_, idx) => <PropertyCardSkeleton key={idx} />)
+          : pgData.length > 0
+            ? pgData.map((pg) => <PGCard key={pg.id} pg={pg} />)
+            : <p className="text-[white] text-center fullwidth">No Properties to show</p>}
+
       </div>
     </div>
 
